@@ -9,29 +9,6 @@ const MODULE_VERSION		= '8.0.0';
 //module slug is the same as grandparent folder name
 DEFINE(__NAMESPACE__.'\MODULE_SLUG', strtolower(basename(dirname(__DIR__))));
 
-add_filter('sim_submenu_description', function($description, $moduleSlug){
-	//module slug should be the same as the constant
-	if($moduleSlug != MODULE_SLUG)	{
-		return $description;
-	}
-
-	ob_start();
-
-	?>
-	<p>
-		This module adds the possibility to make certain posts and pages mandatory.<br>
-		That means people have to mark the content as read.<br>
-		If they do not do so they will be reminded to read it until they do.<br>
-		A "I have read this" button will be automatically added to the e-mail if it is send by mailchimp.<br>
-		<br>
-		Adds one shortcode 'must_read_documents', which displays the pages to be read as links.<br>
-		Use like this <code>[must_read_documents]</code>.<br>
-	</p>
-	<?php
-
-	return ob_get_clean();
-}, 10, 2);
-
 add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings){
 	//module slug should be the same as grandparent folder name
 	if($moduleSlug != MODULE_SLUG){
