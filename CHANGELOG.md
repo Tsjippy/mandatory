@@ -5,6 +5,7 @@
 
 ### Changed
 - hooks & readme
+- redering of asset urls
 
 ### Fixed
 
