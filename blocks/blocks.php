@@ -19,7 +19,7 @@ add_action( 'enqueue_block_assets', function(){
 
         wp_enqueue_script(
             'sim-mandatory-block',
-            plugins_url('blocks/mandatory-settings/build/index.js', __DIR__),
+            SIM\pathToUrl(MODULE_PATH.'blocks/mandatory-settings/build/index.js'),
             [ 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post' ],
             MODULE_VERSION
         );
