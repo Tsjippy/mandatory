@@ -8,6 +8,7 @@
 ### Fixed
 
 ### Updated
+- blocks
 
 ## [8.0.1] - 2024-10-11
 
