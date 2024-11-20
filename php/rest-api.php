@@ -9,7 +9,8 @@ add_filter('sim_allowed_rest_api_urls', function($urls){
 	return $urls;
 });
 
-add_action( 'rest_api_init', function () {
+add_action( 'rest_api_init', __NAMESPACE__.'\restApiInit');
+function restApiInit() {
 	//Route to update mark as read from mailchimp
 	register_rest_route(
 		RESTAPIPREFIX.'/mandatory_content',
@@ -78,9 +79,10 @@ add_action( 'rest_api_init', function () {
 			)
 		)
 	);
-});
+}
 
-add_filter('sim_before_mailchimp_send', function($mailContent, $post){
+add_filter('sim_before_mailchimp_send', __NAMESPACE__.'\beforeMailchimpSend', 10, 2);
+function beforeMailchimpSend($mailContent, $post){
 	$audience   = get_post_meta($post->ID, 'audience', true);
     if(!is_array($audience) && !empty($audience)){
         $audience  = json_decode($audience, true);
@@ -94,7 +96,7 @@ add_filter('sim_before_mailchimp_send', function($mailContent, $post){
     }
 
     return $mailContent;
-}, 10, 2);
+}
 
 /**
  * Rest Request to mark a page as read over e-mail

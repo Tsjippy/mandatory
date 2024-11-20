@@ -2,16 +2,27 @@
 namespace SIM\MANDATORY;
 use SIM;
 
-add_action('init', function () {
+add_action('init', __NAMESPACE__.'\initBlocks');
+function initBlocks() {
 	register_block_type(
 		__DIR__ . '/mandatory-pages-overview/build',
 		array(
 			'render_callback' => __NAMESPACE__.'\mustReadDocuments',
 		)
 	);
-});
 
-add_action( 'enqueue_block_assets', function(){
+    // register custom meta tag field
+    register_post_meta( '', 'audience', array(
+        'show_in_rest' 	    => true,
+        'single' 		    => true,
+        'type' 			    => 'string',
+		'default'			=> '{}',
+		'sanitize_callback' => 'sanitize_text_field'
+    ) );
+}
+
+add_action( 'enqueue_block_assets', __NAMESPACE__.'\loadBlockAssets');
+function loadBlockAssets(){
     if(is_admin()){
         registerMandatoryScripts();
 
@@ -37,15 +48,4 @@ add_action( 'enqueue_block_assets', function(){
             getAudienceOptions($audience, $postId)
         );
     }
-});
-
-// register custom meta tag field
-add_action( 'init', function(){
-	register_post_meta( '', 'audience', array(
-        'show_in_rest' 	    => true,
-        'single' 		    => true,
-        'type' 			    => 'string',
-		'default'			=> '{}',
-		'sanitize_callback' => 'sanitize_text_field'
-    ) );
-} );
+}

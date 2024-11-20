@@ -8,7 +8,8 @@ use SIM;
  * @param  string $content	post content
  * @return string $content	post content
 */
-add_filter( 'the_content', function ($content){
+add_filter( 'the_content', __NAMESPACE__.'\markAsReadButton');
+function markAsReadButton($content){
 	if (!is_user_logged_in()){
 		return $content;
 	}
@@ -51,4 +52,4 @@ add_filter( 'the_content', function ($content){
 	}
 	
 	return $content;
-});
+}

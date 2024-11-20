@@ -2,7 +2,8 @@
 namespace SIM\MANDATORY;
 use SIM;
 
-add_action( 'rest_api_init', function () {
+add_action( 'rest_api_init', __NAMESPACE__.'\blockRestApiInit');
+function blockRestApiInit() {
 	// show schedules
 	register_rest_route(
 		RESTAPIPREFIX.'/mandatory_content',
@@ -13,4 +14,4 @@ add_action( 'rest_api_init', function () {
 			'permission_callback' 	=> '__return_true',
 		)
 	);
-} );
+}

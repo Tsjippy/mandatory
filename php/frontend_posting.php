@@ -24,7 +24,8 @@ function getAudienceOptions($audience, $postId){
  * Adding fields to the frontend posting screen
  * @param  object $frontendContend 	frontendContend instance
 */
-add_action('sim_frontend_post_after_content', function($frontendContend){
+add_action('sim_frontend_post_after_content', __NAMESPACE__.'\afterContent');
+function afterContent($frontendContend){
 	$audience   = $frontendContend->getPostMeta('audience');
     if(!is_array($audience) && !empty($audience)){
         $audience  = json_decode($audience, true);
@@ -51,13 +52,14 @@ add_action('sim_frontend_post_after_content', function($frontendContend){
 	?>
     </div>
     <?php
-});
+}
 
 /**
  * Save the mandatory options
  * @param  object $frontendContend 	frontendContend instance
 */
-add_action('sim_after_post_save', function($post){
+add_action('sim_after_post_save', __NAMESPACE__.'\afterPostSave');
+function afterPostSave($post){
 	//store audience
 	if(!is_array($_POST['audience'])) {
 		delete_post_meta($post->ID, "audience");
@@ -106,14 +108,15 @@ add_action('sim_after_post_save', function($post){
 			do_action('sim_mandatory_save_audience_param', $audiences, $post);
 		}
 	}
-});
+}
 
 /**
  * Adds a message to the Signal message send about the content being mandatory
  * @param  string $message 	Signal message
  * @return string			The message
 */
-add_filter('sim_signal_post_notification_message', function($message, $post){
+add_filter('sim_signal_post_notification_message', __NAMESPACE__.'\postNotification', 10, 2);
+function postNotification($message, $post){
 	$audience   = get_post_meta($post->ID, 'audience', true);
     if(!is_array($audience) && !empty($audience)){
         $audience  = json_decode($audience, true);
@@ -123,4 +126,4 @@ add_filter('sim_signal_post_notification_message', function($message, $post){
 	}
 
 	return $message;
-}, 10, 2);
+}
