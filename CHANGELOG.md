@@ -4,9 +4,16 @@
 ### Added
 
 ### Changed
-- removed anonymous functions
 
 ### Fixed
+
+### Updated
+
+## [8.0.2] - 2024-11-20
+
+
+### Changed
+- removed anonymous functions
 
 ### Updated
 - blocks
