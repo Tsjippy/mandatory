@@ -8,6 +8,14 @@
 ### Fixed
 
 ### Updated
+
+## [8.0.2] - 2024-11-20
+
+
+### Changed
+- removed anonymous functions
+
+### Updated
 - blocks
 
 ## [8.0.1] - 2024-10-11
