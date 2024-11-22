@@ -3,9 +3,10 @@ namespace SIM\MANDATORY;
 use SIM;
 
 // add to account dashboard
-add_action('sim_dashboard_warnings', function($userId){
+add_action('sim_dashboard_warnings', __NAMESPACE__.'\dashboardWarnings', 20);
+function dashboardWarnings($userId){
 	echo mustReadDocuments($userId);
-}, 20);
+}
 
 add_shortcode("must_read_documents", __NAMESPACE__.'\mustReadDocuments');
 
