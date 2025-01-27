@@ -2,13 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- 'sim-must-read' filter
 
 ### Changed
 
 ### Fixed
 
 ### Updated
+
+## [8.0.4] - 2025-01-27
+
+
+### Added
+- 'sim-must-read' filter
 
 ## [8.0.3] - 2024-11-22
 
