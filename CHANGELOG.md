@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- filter
 
 ### Updated
+
+## [8.0.5] - 2025-01-27
+
+
+### Fixed
+- filter
 
 ## [8.0.4] - 2025-01-27
 
