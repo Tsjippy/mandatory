@@ -17,7 +17,7 @@ add_shortcode("must_read_documents", __NAMESPACE__.'\mustReadDocuments');
  * @return string							HTML unordered list
  */
 function mustReadDocuments($userId='', $excludeHeading=false){
-	$mandatoryReading	= apply_filters('sim-must-read', false);
+	$mandatoryReading	= apply_filters('sim-must-read', false, $userId);
 	if(!is_user_logged_in() || !$mandatoryReading){
 		return '';
 	}
