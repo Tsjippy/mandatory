@@ -12,13 +12,8 @@ DEFINE(__NAMESPACE__.'\MODULE_PATH', plugin_dir_path(__DIR__));
 //module slug is the same as grandparent folder name
 DEFINE(__NAMESPACE__.'\MODULE_SLUG', strtolower(basename(dirname(__DIR__))));
 
-add_filter('sim_submenu_options', __NAMESPACE__.'\moduleOptions', 10, 3);
-function moduleOptions($optionsHtml, $moduleSlug, $settings){
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG){
-		return $optionsHtml;
-	}
-
+add_filter('sim_submenu_mandatory_options', __NAMESPACE__.'\moduleOptions', 10, 2);
+function moduleOptions($optionsHtml, $settings){
 	ob_start();
     ?>
 	<label for="reminder_freq">How often should people be reminded of remaining content to read</label>
@@ -30,16 +25,11 @@ function moduleOptions($optionsHtml, $moduleSlug, $settings){
 	</select>
 	<?php
 
-	return ob_get_clean();
+	return $optionsHtml.ob_get_clean();
 }
 
-add_filter('sim_email_settings', __NAMESPACE__.'\emailSettings', 10, 3);
-function emailSettings($optionsHtml, $moduleSlug, $settings){
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG){
-		return $optionsHtml;
-	}
-
+add_filter('sim_email_mandatory_settings', __NAMESPACE__.'\emailSettings', 10, 2);
+function emailSettings($html, $settings){
 	ob_start();
     ?>
 	<h4>E-mail with read reminders</h4>
@@ -49,16 +39,11 @@ function emailSettings($optionsHtml, $moduleSlug, $settings){
 	$readReminder->printPlaceholders();
 	$readReminder->printInputs($settings);
 
-	return ob_get_clean();
+	return $html.ob_get_clean();
 }
 
-add_filter('sim_module_data', __NAMESPACE__.'\moduleData', 10, 3);
-function moduleData($dataHtml, $moduleSlug, $settings){
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG){
-		return $dataHtml;
-	}
-
+add_filter('sim_module_mandatory_data', __NAMESPACE__.'\moduleData');
+function moduleData($dataHtml){
 	//Get all the pages with an audience meta key
 	$pages = get_posts(
 		array(
