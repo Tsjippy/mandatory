@@ -34,9 +34,6 @@ function readReminder(){
 				continue;
 			}
 
-			//Send Signal message
-			SIM\trySendSignal("Hi $user->first_name,\nPlease read some mandatory content.\n\nVisit ".SITEURL." to see the content",$user->ID);
-			
 			//Send e-mail
 			$readReminder    = new ReadReminder($user, $html);
 			$readReminder->filterMail();
