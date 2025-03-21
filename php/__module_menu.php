@@ -5,7 +5,7 @@ use SIM;
 use function SIM\getModuleOption;
 use function SIM\getValidPageLink;
 
-const MODULE_VERSION		= '8.0.7';
+const MODULE_VERSION		= '8.0.8';
 
 DEFINE(__NAMESPACE__.'\MODULE_PATH', plugin_dir_path(__DIR__));
 
