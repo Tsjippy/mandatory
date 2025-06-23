@@ -39,7 +39,14 @@ function restApiInit() {
 		'/mark_as_read',
 		array(
 			'methods' => 'POST',
-			'callback' => __NAMESPACE__.'\markAsRead',
+			'callback' => function(){
+				$userId = $_POST['userid'];
+				$postId = $_POST['postid'];
+
+				markAsRead($userId, $postId);
+
+				return "Succesfully marked this page as read";
+			},
 			'permission_callback' => '__return_true',
 			'args'					=> array(
 				'postid'		=> array(
@@ -148,20 +155,21 @@ function markAsReadFromEmail(\WP_REST_Request $request){
 /**
  * Rest Request to mark a page as read
 */
-function markAsRead(){
-	$userId = $_POST['userid'];
-	$postId = $_POST['postid'];
-
+function markAsRead($userId, $postId){
 	//get current alread read pages
 	$readPages		= (array)get_user_meta( $userId, 'read_pages', true );
+	
+	//only add if not already there
+	if(!in_array($postId, $readPages)){
+		//add current page
+		$readPages[]	= $postId;
 
-	//add current page
-	$readPages[]	= $postId;
-	//update
-	update_user_meta( $userId, 'read_pages', $readPages);
-
-	return "Succesfully marked this page as read";
+		//update db
+		update_user_meta( $userId, 'read_pages', $readPages);
+	}
 }
+
+
 
 /**
  * Rest Request to mark all pages as read
