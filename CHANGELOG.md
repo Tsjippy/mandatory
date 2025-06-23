@@ -2,6 +2,7 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+- sim-pdf-before-fullscreen action
 
 ### Changed
 - removed signal messaging
