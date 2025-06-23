@@ -2,14 +2,21 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- sim-pdf-before-fullscreen action
 
 ### Changed
-- removed signal messaging
 
 ### Fixed
 
 ### Updated
+
+## [8.1.0] - 2025-06-23
+
+
+### Added
+- sim-pdf-before-fullscreen action
+
+### Changed
+- removed signal messaging
 
 ## [8.0.8] - 2025-03-21
 
