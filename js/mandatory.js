@@ -14,7 +14,7 @@ async function markAsRead(event){
 		
         if(response){
             Main.displayMessage(response, 'success', false);
-            document.querySelectorAll('.mandatory_content_button, .mandatory_content_warning').forEach(el=>el.remove());
+            document.querySelectorAll('.mandatory-content-button, .mandatory-content-warning').forEach(el=>el.remove());
         }
 	}
 }

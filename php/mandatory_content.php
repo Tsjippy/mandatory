@@ -41,12 +41,12 @@ function markAsReadButton($content){
 	){
 		wp_enqueue_style('sim_mandatory_style');
 		wp_enqueue_script('sim_mandatory_script');
-		$message = '<p class="mandatory_content_warning">
+		$message = '<p class="mandatory-content-warning">
 			This is mandatory content.<br>
 			Make sure you have clicked the "I have read this" button after reading.
 		</p>';
 		$content	 = $message.$content;
-		$content	.= "<div class='mandatory_content_button'>";
+		$content	.= "<div class='mandatory-content-button'>";
 			$content	.= "<button class='mark_as_read button' data-postid='$postId' data-userid='$userId'>I have read this</button>";
 		$content	.= "</div>";
 	}

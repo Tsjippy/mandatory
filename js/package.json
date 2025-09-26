@@ -4,7 +4,7 @@
   "description": "mandatory",
   "main": "./mandatory.js",
   "scripts": {
-    "build": "webpack --watch --entry ./mandatory.js --output-path . --output-filename mandatory.min.js --progress --mode=production --devtool source-map"
+    "mandatory": "webpack --watch --entry ./mandatory.js --output-path . --output-filename mandatory.min.js --progress --mode=production --devtool source-map"
   },
   "author": "Ewald Harmsen",
   "license": "ISC",
