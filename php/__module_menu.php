@@ -16,11 +16,11 @@ add_filter('sim_submenu_mandatory_options', __NAMESPACE__.'\moduleOptions', 10, 
 function moduleOptions($optionsHtml, $settings){
 	ob_start();
     ?>
-	<label for="reminder_freq">How often should people be reminded of remaining content to read</label>
+	<label for="reminder-freq">How often should people be reminded of remaining content to read</label>
 	<br>
-	<select name="reminder_freq">
+	<select name="reminder-freq">
 		<?php
-		SIM\ADMIN\recurrenceSelector($settings['reminder_freq']);
+		SIM\ADMIN\recurrenceSelector($settings['reminder-freq']);
 		?>
 	</select>
 	<?php

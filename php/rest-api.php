@@ -20,7 +20,7 @@ function restApiInit() {
 			'callback' => __NAMESPACE__.'\markAsReadFromEmail',
 			'permission_callback' => '__return_true',
 			'args'					=> array(
-				'postid'		=> array(
+				'post-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($postId){
 						return is_numeric($postId);
@@ -40,8 +40,8 @@ function restApiInit() {
 		array(
 			'methods' => 'POST',
 			'callback' => function(){
-				$userId = $_POST['userid'];
-				$postId = $_POST['postid'];
+				$userId = $_POST['user-id'];
+				$postId = $_POST['post-id'];
 
 				markAsRead($userId, $postId);
 
@@ -49,13 +49,13 @@ function restApiInit() {
 			},
 			'permission_callback' => '__return_true',
 			'args'					=> array(
-				'postid'		=> array(
+				'post-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($postId){
 						return is_numeric($postId);
 					}
 				),
-				'userid'		=> array(
+				'user-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($userId){
 						return is_numeric($userId);
@@ -71,7 +71,7 @@ function restApiInit() {
 		'/mark_all_as_read', array(
 			'methods' 	=> 'POST',
 			'callback' 	=> function($wpRestRequest){
-				$userId = $wpRestRequest->get_param('userid');
+				$userId = $wpRestRequest->get_param('user-id');
 
 				return markAllAsRead($userId);
 			},
@@ -97,7 +97,7 @@ function beforeMailchimpSend($mailContent, $post){
 
     ///add button if mandatory message
     if(!empty($audience['everyone'])){
-        $url			= SITEURL."/wp-json/".RESTAPIPREFIX."/mandatory_content/mark_as_read_public?email=*|EMAIL|*&postid={$post->ID}";
+        $url			= SITEURL."/wp-json/".RESTAPIPREFIX."/mandatory_content/mark_as_read_public?email=*|EMAIL|*&post-id={$post->ID}";
         $style			= "color: white; background-color: #bd2919; border-radius: 3px; text-align: center; margin-right: 10px; padding: 5px 10px;";
         $mailContent	.= "<br><a href='$url' style='$style'>I have read this</a>";
     }
@@ -111,9 +111,9 @@ function beforeMailchimpSend($mailContent, $post){
 */
 function markAsReadFromEmail(\WP_REST_Request $request){
 	$email		= $request['email'];
-	$postId		= $request['postid'];
+	$postId		= $request['post-id'];
 
-	//only continue if valid email and numeric postid
+	//only continue if valid email and numeric post-id
 	if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		//set the admin as the user so we can query the db
 		wp_set_current_user(1);

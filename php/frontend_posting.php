@@ -32,7 +32,7 @@ function afterContent($frontendContend){
     }
 
     ?>
-    <div id="recipients" class="frontendform property post page<?php if($frontendContend->postType != 'page' && $frontendContend->postType != 'post'){echo ' hidden'; }?>">
+    <div id="recipients" class="frontend-form property post page<?php if($frontendContend->postType != 'page' && $frontendContend->postType != 'post'){echo ' hidden'; }?>">
         <h4>Audience</h4>
         <?php
 		$keys	= getAudienceOptions($audience, $frontendContend->postId);
