@@ -24,7 +24,7 @@ async function markAllAsRead(event){
     var loader  = Main.showLoader(target);
     
     var formData = new FormData();
-    formData.append('userid', target.dataset.userid);
+    formData.append('user-id', target.dataset.user_id);
 
     var response    = await FormSubmit.fetchRestApi('mandatory_content/mark_all_as_read', formData);
     

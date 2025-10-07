@@ -77,7 +77,7 @@ function restApiInit() {
 			},
 			'permission_callback' => '__return_true',
 			'args'					=> array(
-				'userid'		=> array(
+				'user-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($userId){
 						return is_numeric($userId);

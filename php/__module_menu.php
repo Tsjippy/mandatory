@@ -161,7 +161,7 @@ function moduleData($dataHtml){
 						$userEditPage	= getValidPageLink(getModuleOption('usermanagement', 'user_edit_page'));
 						$cell	.= "<div id='wrapper-$page->ID' class='hidden'>";
 							foreach($users as $user){
-								$cell	.= "<a href='$userEditPage?userid=$user->ID'>$user->display_name<br>";
+								$cell	.= "<a href='$userEditPage?user-id=$user->ID'>$user->display_name<br>";
 							}
 						$cell	.= "</div>";
 					}else{
