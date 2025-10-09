@@ -3,12 +3,12 @@ console.log('Mandatory.js loaded');
 
 async function markAsRead(event){
     var target = event.target;
-	if(target.dataset.post_id != undefined){
+	if(target.dataset.postId != undefined){
 		Main.showLoader(target);
 		
 		var formData = new FormData();
-		formData.append('user-id', target.dataset.user_id);
-		formData.append('post-id', target.dataset.post_id);
+		formData.append('user-id', target.dataset.userId);
+		formData.append('post-id', target.dataset.postId);
 
         var response    = await FormSubmit.fetchRestApi('mandatory_content/mark_as_read', formData);
 		
@@ -24,7 +24,7 @@ async function markAllAsRead(event){
     var loader  = Main.showLoader(target);
     
     var formData = new FormData();
-    formData.append('user-id', target.dataset.user_id);
+    formData.append('user-id', target.dataset.userId);
 
     var response    = await FormSubmit.fetchRestApi('mandatory_content/mark_all_as_read', formData);
     
