@@ -158,7 +158,7 @@ function moduleData($dataHtml){
 					if(!empty($users)){
 						$count			= count($users);
 						$cell			= "$count users still have to read this.";
-						$userEditPage	= getValidPageLink(getModuleOption('usermanagement', 'user_edit_page'));
+						$userEditPage	= getValidPageLink(getModuleOption('usermanagement', 'user-edit-page'));
 						$cell	.= "<div id='wrapper-$page->ID' class='hidden'>";
 							foreach($users as $user){
 								$cell	.= "<a href='$userEditPage?user-id=$user->ID'>$user->display_name<br>";
