@@ -47,7 +47,7 @@ function markAsReadButton($content){
 		</p>';
 		$content	 = $message.$content;
 		$content	.= "<div class='mandatory-content-button'>";
-			$content	.= "<button class='mark-as-read button' data-post_id='$postId' data-user_id='$userId'>I have read this</button>";
+			$content	.= "<button class='mark-as-read button' data-post-id='$postId' data-user-id='$userId'>I have read this</button>";
 		$content	.= "</div>";
 	}
 	

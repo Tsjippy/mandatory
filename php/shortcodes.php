@@ -144,7 +144,7 @@ function mustReadDocuments($userId='', $excludeHeading=false){
 	if($userId != get_current_user_id()){
 		$extra	=  " for {$user->display_name}";
 	}
-	$html	.= "<button type'button' class='button small mark-all-as-read' data-user_id='$userId'>Mark all pages as read$extra</button>";
+	$html	.= "<button type'button' class='button small mark-all-as-read' data-user-id='$userId'>Mark all pages as read$extra</button>";
 
 	return "<div id='personalinfo'>$html</div>";
 }
