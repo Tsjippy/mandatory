@@ -6,6 +6,7 @@
 ### Changed
 - classnames
 - data attribute names
+- dataset names
 
 ### Fixed
 - bugs
