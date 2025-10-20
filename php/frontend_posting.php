@@ -73,7 +73,7 @@ function afterPostSave($post){
 		delete_post_meta($post->ID, "audience");
 	//Store in DB
 	}else{
-		SIM\cleanUpNestedArray($audiences);
+		array_filter($audiences);
 
 		//Only continue if there are audiences defined
 		if(!empty($audiences)){
