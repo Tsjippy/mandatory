@@ -28,8 +28,8 @@ function moduleOptions($optionsHtml, $settings){
 	return $optionsHtml.ob_get_clean();
 }
 
-add_filter('sim_email_mandatory_settings', __NAMESPACE__.'\emailSettings', 10, 2);
-function emailSettings($html, $settings){
+add_filter('sim_email_mandatory_settings', __NAMESPACE__.'\emailSettings');
+function emailSettings($html){
 	ob_start();
     ?>
 	<h4>E-mail with read reminders</h4>
@@ -37,7 +37,7 @@ function emailSettings($html, $settings){
 	<?php
 	$readReminder    = new ReadReminder(wp_get_current_user());
 	$readReminder->printPlaceholders();
-	$readReminder->printInputs($settings);
+	$readReminder->printInputs();
 
 	return $html.ob_get_clean();
 }
