@@ -2,6 +2,7 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+- redirection to settings page on plugin activation
 
 ### Changed
 - module to plugin
