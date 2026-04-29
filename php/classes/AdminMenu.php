@@ -1,5 +1,6 @@
 <?php
 namespace TSJIPPY\MANDATORY;
+use TSJIPPY;
 
 use function TSJIPPY\addRawHtml;
 
@@ -14,9 +15,8 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
     }
 
     public function settings($parent){
-        \TSJIPPY\addElement('label', $parent, [], 'How often should people be reminded of remaining content to read');
         
-        $this->recurrenceSelector('reminder-freq', $this->settings['reminder-freq'], $parent);
+        $this->recurrenceSelector('reminder-freq', $this->settings['reminder-freq'], 'How often should people be reminded of remaining content to read', $parent);
 
         return true;
     }
