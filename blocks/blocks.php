@@ -1,6 +1,6 @@
 <?php
-namespace SIM\MANDATORY;
-use SIM;
+namespace TSJIPPY\MANDATORY;
+use TSJIPPY;
 
 add_action('init', __NAMESPACE__.'\initBlocks');
 function initBlocks() {
@@ -26,13 +26,13 @@ function loadBlockAssets(){
     if(is_admin()){
         registerMandatoryScripts();
 
-        wp_enqueue_script( 'sim_mandatory_script');
+        wp_enqueue_script( 'tsjippy_mandatory_script');
 
         wp_enqueue_script(
-            'sim-mandatory-block',
-            SIM\pathToUrl(MODULE_PATH.'blocks/mandatory-settings/build/index.js'),
+            'tsjippy-mandatory-block',
+            TSJIPPY\pathToUrl(PLUGINPATH.'blocks/mandatory-settings/build/index.js'),
             [ 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post' ],
-            MODULE_VERSION
+            PLUGINVERSION
         );
 
         $postId		= get_the_ID();
@@ -43,7 +43,7 @@ function loadBlockAssets(){
         }
 
         wp_localize_script(
-            'sim-mandatory-block',
+            'tsjippy-mandatory-block',
             'mandatory',
             getAudienceOptions($audience, $postId)
         );

@@ -1,16 +1,20 @@
 <?php
-namespace SIM\MANDATORY;
-use SIM;
-use SIM\ADMIN;
+namespace TSJIPPY\MANDATORY;
+use TSJIPPY;
+use TSJIPPY\ADMIN;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class ReadReminder extends ADMIN\MailSetting{
 
-    public $user;
-    public $html;
+    public object $user;
+    public string $html;
 
-    public function __construct($user, $html='') {
+    public function __construct(object $user, string $html='') {
         // call parent constructor
-		parent::__construct( 'read_reminder', MODULE_SLUG);
+		parent::__construct( 'read_reminder', PLUGINSLUG);
 
         $this->addUser($user);
 

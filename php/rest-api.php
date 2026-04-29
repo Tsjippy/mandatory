@@ -1,9 +1,13 @@
 <?php
-namespace SIM\MANDATORY;
-use SIM;
+namespace TSJIPPY\MANDATORY;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // Make mark as read rest api publicy available
-add_filter('sim_allowed_rest_api_urls', function($urls){
+add_filter('tsjippy_allowed_rest_api_urls', function($urls){
 	$urls[]	= RESTAPIPREFIX.'/mandatory_content';
 
 	return $urls;
@@ -88,7 +92,7 @@ function restApiInit() {
 	);
 }
 
-add_filter('sim_before_mailchimp_send', __NAMESPACE__.'\beforeMailchimpSend', 10, 2);
+add_filter('tsjippy_before_mailchimp_send', __NAMESPACE__.'\beforeMailchimpSend', 10, 2);
 function beforeMailchimpSend($mailContent, $post){
 	$audience   = get_post_meta($post->ID, 'audience', true);
     if(!is_array($audience) && !empty($audience)){

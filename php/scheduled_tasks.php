@@ -1,6 +1,10 @@
 <?php
-namespace SIM\MANDATORY;
-use SIM;
+namespace TSJIPPY\MANDATORY;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_action('init', function(){
 	//add action for use in scheduled task
@@ -8,9 +12,9 @@ add_action('init', function(){
 });
 
 function scheduleTasks(){
-    $freq   = SIM\getModuleOption(MODULE_SLUG, 'reminder-freq');
+    $freq   = SETTINGS['reminder-freq'] ?? false;
     if($freq){
-		SIM\scheduleTask('read_reminder_action', $freq);
+		TSJIPPY\scheduleTask('read_reminder_action', $freq);
 	}
 }
 
@@ -21,7 +25,7 @@ function readReminder(){
 	//Change the user to the adminaccount otherwise get_users will not work
 	wp_set_current_user(1);
 	
-	$users = SIM\getUserAccounts();
+	$users = TSJIPPY\getUserAccounts();
 	foreach($users as $user){
 		$html = mustReadDocuments($user->ID);
 		
@@ -44,7 +48,7 @@ function readReminder(){
 }
 
 // Remove scheduled tasks upon module deactivatio
-add_action('sim_module_mandatory_deactivated', __NAMESPACE__.'\moduleDeActivated');
+add_action('tsjippy_module_mandatory_deactivated', __NAMESPACE__.'\moduleDeActivated');
 function moduleDeActivated(){
 	wp_clear_scheduled_hook( 'read_reminder_action' );
 }

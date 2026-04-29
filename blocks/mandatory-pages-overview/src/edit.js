@@ -10,7 +10,7 @@ const Edit = () => {
 	useEffect( 
 		() => {
 			async function getHTML(){
-				const response = await apiFetch({path: sim.restApiPrefix+'/mandatory_content/must_read_documents'});
+				const response = await apiFetch({path: restApiPrefix+'/mandatory_content/must_read_documents'});
 				setHtml( response );
 			}
 			getHTML();

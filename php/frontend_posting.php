@@ -1,6 +1,10 @@
 <?php
-namespace SIM\MANDATORY;
-use SIM;
+namespace TSJIPPY\MANDATORY;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Get the mandatory audience options
@@ -17,14 +21,14 @@ function getAudienceOptions($audience, $postId){
 		$keys['normal'] = "normal";
 	}
 
-	return apply_filters('sim_mandatory_audience_param', $keys);
+	return apply_filters('tsjippy_mandatory_audience_param', $keys);
 }
 
 /**
  * Adding fields to the frontend posting screen
  * @param  object $frontendContend 	frontendContend instance
 */
-add_action('sim_frontend_post_after_content', __NAMESPACE__.'\afterContent');
+add_action('tsjippy_frontend_post_after_content', __NAMESPACE__.'\afterContent');
 function afterContent($frontendContend){
 	$audience   = $frontendContend->getPostMeta('audience');
     if(!is_array($audience) && !empty($audience)){
@@ -58,7 +62,7 @@ function afterContent($frontendContend){
  * Save the mandatory options
  * @param  object $frontendContend 	frontendContend instance
 */
-add_action('sim_after_post_save', __NAMESPACE__.'\afterPostSave');
+add_action('tsjippy_after_post_save', __NAMESPACE__.'\afterPostSave');
 function afterPostSave($post){
 	//store audience
 	if(!is_array($_POST['audience'])) {
@@ -105,7 +109,7 @@ function afterPostSave($post){
 				}
 			}
 
-			do_action('sim_mandatory_save_audience_param', $audiences, $post);
+			do_action('tsjippy_mandatory_save_audience_param', $audiences, $post);
 		}
 	}
 }
@@ -115,7 +119,7 @@ function afterPostSave($post){
  * @param  string $message 	Signal message
  * @return string			The message
 */
-add_filter('sim_signal_post_notification_message', __NAMESPACE__.'\postNotification', 10, 2);
+add_filter('tsjippy_signal_post_notification_message', __NAMESPACE__.'\postNotification', 10, 2);
 function postNotification($message, $post){
 	$audience   = get_post_meta($post->ID, 'audience', true);
     if(!is_array($audience) && !empty($audience)){

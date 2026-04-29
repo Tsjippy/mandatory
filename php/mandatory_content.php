@@ -1,6 +1,10 @@
 <?php
-namespace SIM\MANDATORY;
-use SIM;
+namespace TSJIPPY\MANDATORY;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Adds a message to the content that it is mandaory.
@@ -39,8 +43,8 @@ function markAsReadButton($content){
 			isset($audience['everyone'])
 		)
 	){
-		wp_enqueue_style('sim_mandatory_style');
-		wp_enqueue_script('sim_mandatory_script');
+		wp_enqueue_style('tsjippy_mandatory_style');
+		wp_enqueue_script('tsjippy_mandatory_script');
 		$message = '<p class="mandatory-content-warning">
 			This is mandatory content.<br>
 			Make sure you have clicked the "I have read this" button after reading.
