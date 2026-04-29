@@ -6,6 +6,7 @@
 
 ### Changed
 - module to plugin
+- recurrence selector code
 
 ### Fixed
 
