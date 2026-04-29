@@ -14,7 +14,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
     }
 
     public function settings($parent){
-        TSJIPPY\addElement('label', $parent, [], 'How often should people be reminded of remaining content to read');
+        \TSJIPPY\addElement('label', $parent, [], 'How often should people be reminded of remaining content to read');
         
         $this->recurrenceSelector('reminder-freq', $this->settings['reminder-freq'], $parent);
 
@@ -63,6 +63,10 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                 'numberposts'	=> -1				// all posts
             )
         );
+        
+        if(empty($pages)){
+            return false;
+        }
 
         $keys	= getAudienceOptions(['empty'], 1);
         unset($keys['everyone']);
