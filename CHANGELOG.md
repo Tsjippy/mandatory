@@ -7,6 +7,7 @@
 ### Changed
 - module to plugin
 - recurrence selector code
+- exclude .vscode from releases
 
 ### Fixed
 
