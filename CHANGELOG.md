@@ -8,6 +8,7 @@
 - module to plugin
 - recurrence selector code
 - exclude .vscode from releases
+- updated github workflow versions
 
 ### Fixed
 
