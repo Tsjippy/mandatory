@@ -2,6 +2,17 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [10.0.1] - 2026-05-03
+
+
+### Added
 - redirection to settings page on plugin activation
 
 ### Changed
@@ -11,10 +22,6 @@
 - updated github workflow versions
 - removed the redirection at activation as it is done by the share plugin
 - use shared github workflows
-
-### Fixed
-
-### Updated
 
 ## [8.1.3] - 2025-10-20
 
