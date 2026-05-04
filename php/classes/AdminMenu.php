@@ -162,7 +162,11 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                             <?php
                             if(!empty($users)){
                                 $count			= count($users);
-                                $userEditPage	= TSJIPPY\getValidPageLink(TSJIPPY\USERMANAGEMENT\SETTINGS['user-edit-page'] ?? '');
+                                if(defined('TSJIPPY\USERMANAGEMENT\SETTINGS')){
+                                    $userEditPage	= TSJIPPY\getValidPageLink(TSJIPPY\USERMANAGEMENT\SETTINGS['user-edit-page'] ?? '');
+                                }else{
+                                    $userEditPage	= '';
+                                }
                                 ?>
                                 <div id='wrapper-<?php echo esc_attr($page->ID);?>' class='hidden'>
                                     <?php echo esc_html($count);?> users still have to read this.
