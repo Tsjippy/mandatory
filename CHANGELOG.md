@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- rest api prefix value
 
 ### Updated
 
