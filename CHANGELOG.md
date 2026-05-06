@@ -6,10 +6,15 @@
 ### Changed
 
 ### Fixed
-- rest api prefix value
-- textdomain
 
 ### Updated
+
+## [10.0.3] - 2026-05-06
+
+
+### Fixed
+- rest api prefix value
+- textdomain
 
 ## [10.0.2] - 2026-05-04
 
