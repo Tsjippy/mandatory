@@ -7,6 +7,7 @@
 
 ### Fixed
 - rest api prefix value
+- textdomain
 
 ### Updated
 
