@@ -13,7 +13,7 @@ async function markAsRead(event){
         var response    = await FormSubmit.fetchRestApi('mandatory_content/mark_as_read', formData);
 		
         if(response){
-            Main.displayMessage(response, 'success', false);
+            Main.displayMessage(response);
             document.querySelectorAll('.mandatory-content-button, .mandatory-content-warning').forEach(el=>el.remove());
         }
 	}
@@ -29,7 +29,7 @@ async function markAllAsRead(event){
     var response    = await FormSubmit.fetchRestApi('mandatory_content/mark_all_as_read', formData);
     
     if(response){
-        Main.displayMessage(response, 'success', false);
+        Main.displayMessage(response);
         document.querySelectorAll('.mark-all-as-read').forEach(el=>el.remove());
     }
 
