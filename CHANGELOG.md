@@ -4,16 +4,11 @@
 ### Added
 
 ### Changed
+- replaced sweetalert
 
 ### Fixed
 
 ### Updated
-
-## [10.0.4] - 2026-05-07
-
-
-### Changed
-- replaced sweetalert
 
 ## [10.0.3] - 2026-05-06
 
