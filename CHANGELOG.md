@@ -5,6 +5,7 @@
 
 ### Changed
 - replaced sweetalert
+- removed admin login for cron
 
 ### Fixed
 
