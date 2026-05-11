@@ -22,8 +22,6 @@ function scheduleTasks(){
  * Send an e-mail to remind people to read their mandatory content
  */
 function readReminder(){
-	//Change the user to the adminaccount otherwise get_users will not work
-	wp_set_current_user(1);
 	
 	$users = TSJIPPY\getUserAccounts();
 	foreach($users as $user){

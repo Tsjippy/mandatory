@@ -119,8 +119,6 @@ function markAsReadFromEmail(\WP_REST_Request $request){
 
 	//only continue if valid email and numeric post-id
 	if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		//set the admin as the user so we can query the db
-		wp_set_current_user(1);
 
 		$userId		= get_user_by( 'email', $email )->ID;
 
