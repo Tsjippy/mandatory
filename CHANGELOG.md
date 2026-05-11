@@ -4,10 +4,17 @@
 ### Added
 
 ### Changed
-- replaced sweetalert
-- removed admin login for cron
 
 ### Fixed
+
+### Updated
+
+## [10.0.5] - 2026-05-11
+
+
+### Changed
+- replaced sweetalert
+- removed admin login for cron
 
 ### Updated
 - css
