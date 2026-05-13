@@ -129,7 +129,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                             ),
                             array(
                                 'key' 		=> 'arrival_date',
-                                'value' 	=> Date('Y-m-d'),
+                                'value' 	=> gmdate('Y-m-d'),
                                 'compare' 	=> '>'
                             ),
                         );
@@ -143,7 +143,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                             ),
                             array(
                                 'key' 		=> 'arrival_date',
-                                'value' 	=> Date('Y-m-d'),
+                                'value' 	=> gmdate('Y-m-d'),
                                 'compare' 	=> '<'
                             ),
                         );

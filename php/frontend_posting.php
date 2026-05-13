@@ -90,7 +90,7 @@ function afterPostSave($post){
 					'meta_query' => array(
 						array(
 							'key' => 'arrival_date',
-							'value' => date('Y-m-d', strtotime("-1 months")),
+							'value' => gmdate('Y-m-d', strtotime("-1 months")),
 							'type' => 'date',
 							'compare' => '<='
 						)
