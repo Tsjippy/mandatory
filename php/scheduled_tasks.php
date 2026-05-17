@@ -44,9 +44,3 @@ function readReminder(){
 		}
 	}
 }
-
-// Remove scheduled tasks upon module deactivatio
-add_action('tsjippy_module_mandatory_deactivated', __NAMESPACE__.'\moduleDeActivated');
-function moduleDeActivated(){
-	wp_clear_scheduled_hook( 'read_reminder_action' );
-}
