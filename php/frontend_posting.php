@@ -65,7 +65,7 @@ function afterContent($frontendContend){
 add_action('tsjippy_after_post_save', __NAMESPACE__.'\afterPostSave');
 function afterPostSave($post){
 	//store audience
-	if(!is_array($_POST['audience'])) {
+	if(empty($_POST['audience']) ||!is_array($_POST['audience'])) {
 		delete_post_meta($post->ID, "audience");
 
 		return;
