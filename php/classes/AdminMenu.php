@@ -22,7 +22,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
 
     public function settings($parent){
         
-        $this->recurrenceSelector('reminder-freq', $this->settings['reminder-freq'], 'How often should people be reminded of remaining content to read', $parent);
+        $this->recurrenceSelector('reminder-freq', $this->settings['reminder-freq'] ?? '', 'How often should people be reminded of remaining content to read', $parent);
 
         return true;
     }
