@@ -5,3 +5,9 @@ A "I have read this" button will be automatically added to the e-mail if it is s
 <br>
 Adds one shortcode 'must_read_documents', which displays the pages to be read as links.<br>
 Use like this <code>[must_read_documents]</code>.<br>
+
+== Hooks ==
+# FILTERS
+- apply_filters('sim_mandatory_audience_param', $keys);
+- apply_filters('sim_should_read_mandatory_page', $mustRead, $audience, $userId);
+- sim-must-read
