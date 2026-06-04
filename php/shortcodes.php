@@ -1,14 +1,17 @@
 <?php
+
 namespace TSJIPPY\MANDATORY;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 // add to account dashboard
 add_action('tsjippy_dashboard_warnings', __NAMESPACE__ . '\dashboardWarnings', 20);
-function dashboardWarnings($userId) {
+function dashboardWarnings($userId)
+{
     echo mustReadDocuments($userId);
 }
 
@@ -20,7 +23,8 @@ add_shortcode("must_read_documents", __NAMESPACE__ . '\mustReadDocuments');
  * @param  bool         $excludeHeading            Whether to include a heading for
  * @return string                            HTML unordered list
  */
-function mustReadDocuments($userId='', $excludeHeading=false) {
+function mustReadDocuments($userId = '', $excludeHeading = false)
+{
     $mandatoryReading    = apply_filters('tsjippy-must-read', false, $userId);
     if (!is_user_logged_in() || !$mandatoryReading) {
         return '';
@@ -49,7 +53,7 @@ function mustReadDocuments($userId='', $excludeHeading=false) {
     $arrivalDate     = strtotime(get_user_meta($userId, 'arrival_date', true));
     if (!$arrivalDate || $arrivalDate < time()) {
         $arrived = true;
-    }else{
+    } else {
         $arrived = false;
     }
 
@@ -62,9 +66,9 @@ function mustReadDocuments($userId='', $excludeHeading=false) {
             'post_status'     => 'publish',
             'meta_key'         => "audience",
             'numberposts'    => -1,                // all posts
-            'author'         => '-' .$userId        // exclude own posts
-       )
-   );
+            'author'         => '-' . $userId        // exclude own posts
+        )
+    );
 
     //Loop over the pages while building the html
     $arrivedPagesCount = 0;
@@ -78,7 +82,7 @@ function mustReadDocuments($userId='', $excludeHeading=false) {
 
             //Add a link if not yet in the country and should read before arriving
             if (isset($audience['beforearrival']) && !$arrived) {
-                $beforeHtml .= '<li><a href="' .get_permalink($page->ID). '">' .$page->post_title. '</a></li>';
+                $beforeHtml .= '<li><a href="' . get_permalink($page->ID) . '">' . $page->post_title . '</a></li>';
             }
 
             //Page has not been read, scheck if it should be read
@@ -89,16 +93,16 @@ function mustReadDocuments($userId='', $excludeHeading=false) {
                     (
                         isset($audience['everyone'])    &&            // Or everyone should read this
                         $arrivalDate < strtotime($page->post_date)    // And arrived before the post was published
-                   )
-               )                                        &&            // AND
+                    )
+                )                                        &&            // AND
                 (
                     !isset($audience['beforearrival'])    ||             // The before arrival is not set
                     (
                         isset($audience['beforearrival'])    &&        // Or it is set but we have arrived
                         $arrived
-                   )
-               )
-           ) {
+                    )
+                )
+            ) {
                 $mustRead    = true;
             }
 
@@ -106,7 +110,7 @@ function mustReadDocuments($userId='', $excludeHeading=false) {
             $mustRead    = apply_filters('tsjippy_should_read_mandatory_page', $mustRead, $audience, $userId);
 
             if ($mustRead) {
-                $arrivedHtml .= '<li><a href="' .get_permalink($page->ID). '">' .$page->post_title. '</a></li>';
+                $arrivedHtml .= '<li><a href="' . get_permalink($page->ID) . '">' . $page->post_title . '</a></li>';
                 $arrivedPagesCount++;
             }
         }
@@ -117,8 +121,8 @@ function mustReadDocuments($userId='', $excludeHeading=false) {
         if (!$excludeHeading) {
             $html .= "<h3>Welcome!</h3>";
             $html .= "<p>";
-                $html .= "We are so happy to welcome you!<br>";
-                $html .= "Please read and/or download the documents below to prepare for your stay. ";
+            $html .= "We are so happy to welcome you!<br>";
+            $html .= "Please read and/or download the documents below to prepare for your stay. ";
             $html .= "</p>";
         }
         $html .= "<ul>$beforeHtml</ul>";
@@ -137,7 +141,7 @@ function mustReadDocuments($userId='', $excludeHeading=false) {
     }
 
     if (empty($html)) {
-        if (str_contains($_SERVER['REQUEST_URI'], 'wp-admin/post.php')|| str_contains($_SERVER['REQUEST_URI'], 'wp-json')) {
+        if (str_contains($_SERVER['REQUEST_URI'], 'wp-admin/post.php') || str_contains($_SERVER['REQUEST_URI'], 'wp-json')) {
             return 'Mandatory pages block<br>This will show empty as you have not pages to read';
         }
 

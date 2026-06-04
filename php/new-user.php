@@ -1,8 +1,10 @@
 <?php
+
 namespace TSJIPPY\MANDATORY;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 

@@ -1,12 +1,15 @@
 <?php
+
 namespace TSJIPPY\MANDATORY;
+
 use TSJIPPY;
 
 add_action('rest_api_init', __NAMESPACE__ . '\blockRestApiInit');
-function blockRestApiInit() {
+function blockRestApiInit()
+{
     // show schedules
     register_rest_route(
-        RESTAPIPREFIX. '/mandatory_content',
+        RESTAPIPREFIX . '/mandatory_content',
         '/must_read_documents',
         array(
             'methods'                 => 'GET',
@@ -14,6 +17,6 @@ function blockRestApiInit() {
             'permission_callback'     => function () {
                 return current_user_can('read');
             },
-       )
-   );
+        )
+    );
 }

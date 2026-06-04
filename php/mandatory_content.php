@@ -1,8 +1,10 @@
 <?php
+
 namespace TSJIPPY\MANDATORY;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -11,9 +13,10 @@ if ( ! defined('ABSPATH')) {
  * Also add a button to mark the post as read
  * @param  string $content    post content
  * @return string $content    post content
-*/
+ */
 add_filter('the_content', __NAMESPACE__ . '\markAsReadButton');
-function markAsReadButton($content) {
+function markAsReadButton($content)
+{
     if (!is_user_logged_in()) {
         return $content;
     }
@@ -41,17 +44,17 @@ function markAsReadButton($content) {
             (isset($audience['beforearrival']) && !$arrived)    ||
             isset($audience['afterarrival'])                     ||
             isset($audience['everyone'])
-       )
-   ) {
+        )
+    ) {
         wp_enqueue_style('tsjippy_mandatory_style');
         wp_enqueue_script('tsjippy_mandatory_script');
         $message = '<p class="mandatory-content-warning">
             This is mandatory content.<br>
             Make sure you have clicked the "I have read this" button after reading.
         </p>';
-        $content     = $message.$content;
+        $content     = $message . $content;
         $content    .= "<div class='mandatory-content-button'>";
-            $content    .= "<button class='mark-as-read button' data-post-id='$postId' data-user-id='$userId'>I have read this</button>";
+        $content    .= "<button class='mark-as-read button' data-post-id='$postId' data-user-id='$userId'>I have read this</button>";
         $content    .= "</div>";
     }
 

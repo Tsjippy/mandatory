@@ -1,18 +1,22 @@
 <?php
+
 namespace TSJIPPY\MANDATORY;
+
 use TSJIPPY;
 use TSJIPPY\ADMIN;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class ReadReminder extends ADMIN\MailSetting{
+class ReadReminder extends ADMIN\MailSetting
+{
 
     public object $user;
     public string $html;
 
-    public function __construct(object $user, string $html='') {
+    public function __construct(object $user, string $html = '')
+    {
         // call parent constructor
         parent::__construct('read_reminder', PLUGINSLUG);
 

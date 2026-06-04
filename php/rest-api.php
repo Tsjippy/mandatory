@@ -1,23 +1,26 @@
 <?php
+
 namespace TSJIPPY\MANDATORY;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 // Make mark as read rest api publicy available
 add_filter('tsjippy_allowed_rest_api_urls', function ($urls) {
-    $urls[]    = RESTAPIPREFIX. '/mandatory_content';
+    $urls[]    = RESTAPIPREFIX . '/mandatory_content';
 
     return $urls;
 });
 
 add_action('rest_api_init', __NAMESPACE__ . '\restApiInit');
-function restApiInit() {
+function restApiInit()
+{
     //Route to update mark as read from mailchimp
     register_rest_route(
-        RESTAPIPREFIX. '/mandatory_content',
+        RESTAPIPREFIX . '/mandatory_content',
         '/mark_as_read_public',
         array(
             'methods' => 'GET',
@@ -29,17 +32,17 @@ function restApiInit() {
                     'validate_callback' => function ($postId) {
                         return is_numeric($postId);
                     }
-               ),
+                ),
                 'email'        => array(
                     'required'    => true
-               )
-           )
-       )
-   );
+                )
+            )
+        )
+    );
 
     // Mark as read from website
     register_rest_route(
-        RESTAPIPREFIX. '/mandatory_content',
+        RESTAPIPREFIX . '/mandatory_content',
         '/mark_as_read',
         array(
             'methods' => 'POST',
@@ -58,21 +61,22 @@ function restApiInit() {
                     'validate_callback' => function ($postId) {
                         return is_numeric($postId);
                     }
-               ),
+                ),
                 'user-id'        => array(
                     'required'    => true,
                     'validate_callback' => function ($userId) {
                         return is_numeric($userId);
                     }
-               )
-           )
-       )
-   );
+                )
+            )
+        )
+    );
 
     // Mark all as read
     register_rest_route(
-        RESTAPIPREFIX. '/mandatory_content',
-        '/mark_all_as_read', array(
+        RESTAPIPREFIX . '/mandatory_content',
+        '/mark_all_as_read',
+        array(
             'methods'     => 'POST',
             'callback'     => function ($wpRestRequest) {
                 $userId = $wpRestRequest->get_param('user-id');
@@ -86,14 +90,15 @@ function restApiInit() {
                     'validate_callback' => function ($userId) {
                         return is_numeric($userId);
                     }
-               )
-           )
-       )
-   );
+                )
+            )
+        )
+    );
 }
 
 add_filter('tsjippy_before_mailchimp_send', __NAMESPACE__ . '\beforeMailchimpSend', 10, 2);
-function beforeMailchimpSend($mailContent, $post) {
+function beforeMailchimpSend($mailContent, $post)
+{
     $audience   = get_post_meta($post->ID, 'audience', true);
     if (!is_array($audience) && !empty($audience)) {
         $audience  = json_decode($audience, true);
@@ -101,7 +106,7 @@ function beforeMailchimpSend($mailContent, $post) {
 
     ///add button if mandatory message
     if (!empty($audience['everyone'])) {
-        $url            = SITEURL. "/wp-json/" .RESTAPIPREFIX. "/mandatory_content/mark_as_read_public?email=*|EMAIL|*&post-id={$post->ID}";
+        $url            = SITEURL . "/wp-json/" . RESTAPIPREFIX . "/mandatory_content/mark_as_read_public?email=*|EMAIL|*&post-id={$post->ID}";
         $style            = "color: white; background-color: #bd2919; border-radius: 3px; text-align: center; margin-right: 10px; padding: 5px 10px;";
         $mailContent    .= "<br><a href='$url' style='$style'>I have read this</a>";
     }
@@ -112,8 +117,9 @@ function beforeMailchimpSend($mailContent, $post) {
 /**
  * Rest Request to mark a page as read over e-mail
  * Also add a button to mark the post as read
-*/
-function markAsReadFromEmail(\WP_REST_Request $request) {
+ */
+function markAsReadFromEmail(\WP_REST_Request $request)
+{
     $email        = $request['email'];
     $postId        = $request['post-id'];
 
@@ -124,7 +130,7 @@ function markAsReadFromEmail(\WP_REST_Request $request) {
 
         //no user, check secundairy email
         if (!is_numeric($userId)) {
-            $userId = get_users(['meta_key' => 'email','meta_value' => $email])[0]->ID;
+            $userId = get_users(['meta_key' => 'email', 'meta_value' => $email])[0]->ID;
         }
 
         $title    = get_the_title($postId);
@@ -132,10 +138,10 @@ function markAsReadFromEmail(\WP_REST_Request $request) {
         if (!is_numeric($userId)) {
             $message    = "We could not find an user with the e-mail '$email'";
             $type        = 'Error';
-        }elseif (empty($title)) {
+        } elseif (empty($title)) {
             $message    = "We could not find the page";
             $type        = 'Error';
-        }else{
+        } else {
             //get current alread read pages
             $readPages        = (array)get_user_meta($userId, 'read_pages', true);
 
@@ -145,7 +151,7 @@ function markAsReadFromEmail(\WP_REST_Request $request) {
             //update
             update_user_meta($userId, 'read_pages', $readPages);
 
-            $message    = "Succesfully marked '" .get_the_title($postId). "' as read. ";
+            $message    = "Succesfully marked '" . get_the_title($postId) . "' as read. ";
             $type        = 'Success';
         }
 
@@ -156,8 +162,9 @@ function markAsReadFromEmail(\WP_REST_Request $request) {
 
 /**
  * Rest Request to mark a page as read
-*/
-function markAsRead($userId, $postId) {
+ */
+function markAsRead($userId, $postId)
+{
     //get current alread read pages
     $readPages        = (array)get_user_meta($userId, 'read_pages', true);
 
@@ -178,8 +185,9 @@ function markAsRead($userId, $postId) {
  *
  * @param    int                $userId        the user id to mark as read for
  * @param    array|string    $audience    array of audience targets to mark as read for or 'all' for all. Default 'everyone'
-*/
-function markAllAsRead($userId, $audience=['everyone']) {
+ */
+function markAllAsRead($userId, $audience = ['everyone'])
+{
 
     //Get all the pages with an audience meta key
     $pages = get_posts(
@@ -188,8 +196,8 @@ function markAllAsRead($userId, $audience=['everyone']) {
             'post_status'     => 'publish',
             'meta_key'         => "audience",
             'numberposts'    => -1,                // all posts
-       )
-   );
+        )
+    );
 
     //get current alread read pages
     $readPages        = (array)get_user_meta($userId, 'read_pages', true);
@@ -200,7 +208,7 @@ function markAllAsRead($userId, $audience=['everyone']) {
         if (empty($targetAudience)) {
             delete_post_meta($page->ID, 'audience');
             continue;
-        }elseif (!is_array($targetAudience)) {
+        } elseif (!is_array($targetAudience)) {
             $targetAudience    = json_decode($targetAudience);
         }
 
@@ -213,5 +221,5 @@ function markAllAsRead($userId, $audience=['everyone']) {
     //update in db
     update_user_meta($userId, 'read_pages', $readPages);
 
-    return "Succesfully marked all pages as read for " .get_userdata($userId)->display_name;
+    return "Succesfully marked all pages as read for " . get_userdata($userId)->display_name;
 }

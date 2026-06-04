@@ -1,14 +1,17 @@
 <?php
+
 namespace TSJIPPY\MANDATORY;
+
 use TSJIPPY;
 
 use function TSJIPPY\addRawHtml;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
+class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
+{
 
     /**
      * AdminMenu constructor.
@@ -16,23 +19,26 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
      * @param array $settings The settings for the plugin
      * @param string $name The name of the plugin
      */
-    public function __construct($settings, $name) {
+    public function __construct($settings, $name)
+    {
         parent::__construct($settings, $name);
     }
 
-    public function settings($parent) {
+    public function settings($parent)
+    {
 
         $this->recurrenceSelector('reminder-freq', $this->settings['reminder-freq'] ?? '', 'How often should people be reminded of remaining content to read', $parent);
 
         return true;
     }
 
-    public function emails($parent) {
+    public function emails($parent)
+    {
         ob_start();
-        ?>
+?>
         <h4>E-mail with read reminders</h4>
         <label>Define the e-mail people get when they shour read some mandatory content.</label>
-        <?php
+    <?php
         $readReminder    = new ReadReminder(wp_get_current_user());
         $readReminder->printPlaceholders();
         $readReminder->printInputs();
@@ -42,7 +48,8 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
         return true;
     }
 
-    public function data($parent='') {
+    public function data($parent = '')
+    {
         //Get all the pages with an audience meta key
         $pages = get_posts(
             array(
@@ -67,8 +74,8 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                     ]
                 ],
                 'numberposts'    => -1                // all posts
-           )
-       );
+            )
+        );
 
         if (empty($pages)) {
             return false;
@@ -79,14 +86,14 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
 
         ob_start();
 
-        ?>
+    ?>
         <script>
             function showUserList(pageId, button) {
                 document.querySelector(`#wrapper-\${pageId}`).classList.toggle('hidden');
                 if (button.textContent.includes('Show')) {
-                    button.textContent    = button.textContent.replace('Show', 'Hide')
-                }else{
-                    button.textContent    = button.textContent.replace('Hide', 'Show')
+                    button.textContent = button.textContent.replace('Show', 'Hide')
+                } else {
+                    button.textContent = button.textContent.replace('Hide', 'Show')
                 }
             }
         </script>
@@ -111,43 +118,43 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                     $users    = [];
 
                     // Evryone should read this
-                    if (isset($audience['everyone']) || ( isset($audience['beforearrival']) && isset($audience['afterarrival']))) {
+                    if (isset($audience['everyone']) || (isset($audience['beforearrival']) && isset($audience['afterarrival']))) {
                         $metaQuery    = array(
                             array(
                                 'key'         => 'read_pages',
                                 'value'     => $page->ID,
                                 'compare'     => 'NOT LIKE'
-                           )
-                       );
-                    }elseif (isset($audience['beforearrival'])) {
+                            )
+                        );
+                    } elseif (isset($audience['beforearrival'])) {
                         $metaQuery    =  array(
                             'relation' => 'AND',
                             array(
                                 'key'         => 'read_pages',
                                 'value'     => $page->ID,
                                 'compare'     => 'NOT LIKE'
-                           ),
+                            ),
                             array(
                                 'key'         => 'arrival_date',
                                 'value'     => gmdate('Y-m-d'),
                                 'compare'     => '>'
-                           ),
-                       );
-                    }elseif (isset($audience['afterarrival'])) {
+                            ),
+                        );
+                    } elseif (isset($audience['afterarrival'])) {
                         $metaQuery    =  array(
                             'relation' => 'AND',
                             array(
                                 'key'         => 'read_pages',
                                 'value'     => $page->ID,
                                 'compare'     => 'NOT LIKE'
-                           ),
+                            ),
                             array(
                                 'key'         => 'arrival_date',
                                 'value'     => gmdate('Y-m-d'),
                                 'compare'     => '<'
-                           ),
-                       );
-                    }else{
+                            ),
+                        );
+                    } else {
                         $metaQuery    = '';
                     }
 
@@ -158,54 +165,55 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                             'count_total'    => false,
                             'fields'        => ['display_name', 'ID'],
                             'meta_query'     => $metaQuery
-                       )
-                   );
+                        )
+                    );
 
-                    ?>
+                ?>
                     <tr>
-                        <td><a href='$url'><?php echo esc_attr($page->post_title);?></a></td>
+                        <td><a href='$url'><?php echo esc_attr($page->post_title); ?></a></td>
                         <td>
                             <?php
                             if (!empty($users)) {
                                 $count            = count($users);
                                 if (defined('TSJIPPY\USERMANAGEMENT\SETTINGS')) {
                                     $userEditPage    = TSJIPPY\getValidPageLink(TSJIPPY\USERMANAGEMENT\SETTINGS['user-edit-page'] ?? '');
-                                }else{
+                                } else {
                                     $userEditPage    = '';
                                 }
-                                ?>
-                                <div id='wrapper-<?php echo esc_attr($page->ID);?>' class='hidden'>
-                                    <?php echo esc_html($count);?> users still have to read this.
+                            ?>
+                                <div id='wrapper-<?php echo esc_attr($page->ID); ?>' class='hidden'>
+                                    <?php echo esc_html($count); ?> users still have to read this.
                                     <?php
                                     foreach ($users as $user) {
                                         echo "<a href='$userEditPage?user-id=$user->ID'>$user->display_name<br>";
-                                    }?>
+                                    } ?>
                                 </div>
-                                <?php
-                            }else{
-                                ?>
+                            <?php
+                            } else {
+                            ?>
                                 Read by everyone
-                                <?php
+                            <?php
                             }
                             ?>
                         </td>
 
-                        <td><button class='small show-user-list' onclick='showUserList(<?php echo esc_attr($page->ID);?>, this)'>Show who</button></td>
+                        <td><button class='small show-user-list' onclick='showUserList(<?php echo esc_attr($page->ID); ?>, this)'>Show who</button></td>
 
                     </tr>
-                    <?php
+                <?php
                 }
                 ?>
             </tbody>
         </table>
-        <?php
+<?php
 
         addRawHtml(ob_get_clean(), $parent);
 
         return true;
     }
 
-    public function functions($parent) {
+    public function functions($parent)
+    {
 
         return false;
     }
@@ -213,15 +221,17 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
     /**
      * Function to do extra actions from $_POST data. Overwrite if needed
      */
-    public function postActions() {
+    public function postActions()
+    {
         return '';
     }
 
     /**
      * Schedules the tasks for this plugin
      *
-    */
-    public function postSettingsSave() {
+     */
+    public function postSettingsSave()
+    {
         scheduleTasks();
 
         $roleSet = get_role('contributor')->capabilities;
@@ -232,7 +242,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                 'no_man_docs',
                 'No mandatory documents',
                 $roleSet
-           );
+            );
 
             return "Added the 'No mandatory documents' role";
         }

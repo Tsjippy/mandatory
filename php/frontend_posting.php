@@ -1,15 +1,18 @@
 <?php
+
 namespace TSJIPPY\MANDATORY;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 /**
  * Get the mandatory audience options
  */
-function getAudienceOptions($audience, $postId) {
+function getAudienceOptions($audience, $postId)
+{
     $keys    = [
         'beforearrival'        => "People should read this before arriving in the country (pre-field)",
         'afterarrival'        => "People should read this after arriving in the country",
@@ -27,45 +30,49 @@ function getAudienceOptions($audience, $postId) {
 /**
  * Adding fields to the frontend posting screen
  * @param  object $frontendContend     frontendContend instance
-*/
+ */
 add_action('tsjippy_frontend_post_after_content', __NAMESPACE__ . '\afterContent');
-function afterContent($frontendContend) {
+function afterContent($frontendContend)
+{
     $audience   = $frontendContend->getPostMeta('audience');
     if (!is_array($audience) && !empty($audience)) {
         $audience  = json_decode($audience, true);
     }
 
-    ?>
-    <div id="recipients" class="frontend-form property post page<?php if ($frontendContend->postType != 'page' && $frontendContend->postType != 'post') {echo ' hidden'; }?>">
+?>
+    <div id="recipients" class="frontend-form property post page<?php if ($frontendContend->postType != 'page' && $frontendContend->postType != 'post') {
+                                                                    echo ' hidden';
+                                                                } ?>">
         <h4>Audience</h4>
         <?php
         $keys    = getAudienceOptions($audience, $frontendContend->postId);
 
-        foreach ($keys as $key=>$label) {
+        foreach ($keys as $key => $label) {
             if (isset($audience[$key])) {
                 $checked    = 'checked';
-            }else{
+            } else {
                 $checked    = '';
             }
 
             echo "<label>";
-                echo "<input type='checkbox' name='audience[$key]' value='$key' $checked>";
-                echo $label;
+            echo "<input type='checkbox' name='audience[$key]' value='$key' $checked>";
+            echo $label;
             echo "</label><br>";
         }
-    ?>
+        ?>
     </div>
-    <?php
+<?php
 }
 
 /**
  * Save the mandatory options
  * @param  object $frontendContend     frontendContend instance
-*/
+ */
 add_action('tsjippy_after_post_save', __NAMESPACE__ . '\afterPostSave');
-function afterPostSave($post) {
+function afterPostSave($post)
+{
     //store audience
-    if (empty($_POST['audience']) ||!is_array($_POST['audience'])) {
+    if (empty($_POST['audience']) || !is_array($_POST['audience'])) {
         delete_post_meta($post->ID, "audience");
 
         return;
@@ -75,8 +82,8 @@ function afterPostSave($post) {
     //Reset to normal if that box is ticked
     if (isset($audiences['normal']) && $audiences['normal'] == 'normal') {
         delete_post_meta($post->ID, "audience");
-    //Store in DB
-    }else{
+        //Store in DB
+    } else {
         array_filter($audiences);
 
         //Only continue if there are audiences defined
@@ -93,9 +100,9 @@ function afterPostSave($post) {
                             'value' => gmdate('Y-m-d', strtotime("-1 months")),
                             'type' => 'date',
                             'compare' => '<='
-                       )
-                   ),
-               ));
+                        )
+                    ),
+                ));
 
                 //Loop over the users
                 foreach ($users as $user) {
@@ -118,9 +125,10 @@ function afterPostSave($post) {
  * Adds a message to the Signal message send about the content being mandatory
  * @param  string $message     Signal message
  * @return string            The message
-*/
+ */
 add_filter('tsjippy_signal_post_notification_message', __NAMESPACE__ . '\postNotification', 10, 2);
-function postNotification($message, $post) {
+function postNotification($message, $post)
+{
     $audience   = get_post_meta($post->ID, 'audience', true);
     if (!is_array($audience) && !empty($audience)) {
         $audience  = json_decode($audience, true);

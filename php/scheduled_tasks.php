@@ -1,8 +1,10 @@
 <?php
+
 namespace TSJIPPY\MANDATORY;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -11,7 +13,8 @@ add_action('init', function () {
     add_action('read_reminder_action', __NAMESPACE__ . '\readReminder');
 });
 
-function scheduleTasks() {
+function scheduleTasks()
+{
     $freq   = SETTINGS['reminder-freq'] ?? false;
     if ($freq) {
         TSJIPPY\scheduleTask('read_reminder_action', $freq);
@@ -21,7 +24,8 @@ function scheduleTasks() {
 /**
  * Send an e-mail to remind people to read their mandatory content
  */
-function readReminder() {
+function readReminder()
+{
 
     $users = TSJIPPY\getUserAccounts();
     foreach ($users as $user) {
@@ -32,7 +36,7 @@ function readReminder() {
             $to = $user->user_email;
 
             //Skip if not valid email
-            if (str_contains($to,' .empty')) {
+            if (str_contains($to, ' .empty')) {
                 continue;
             }
 
