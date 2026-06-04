@@ -2,11 +2,11 @@
 namespace TSJIPPY\MANDATORY;
 use TSJIPPY;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if ( ! defined('ABSPATH')) {
+    exit;
 }
 
-add_action( 'user_register', function($userId, $user){
+add_action('user_register', function ($userId, $user) {
     // mark all documents as read for this new user so now old pages need to be read
     markAllAsRead($userId);
-}, 10, 2 );
+}, 10, 2);

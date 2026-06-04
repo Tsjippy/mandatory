@@ -4,30 +4,30 @@ use TSJIPPY;
 
 use function TSJIPPY\addRawHtml;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if ( ! defined('ABSPATH')) {
+    exit;
 }
 
 class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
 
     /**
      * AdminMenu constructor.
-     * 
+     *
      * @param array $settings The settings for the plugin
      * @param string $name The name of the plugin
      */
-    public function __construct($settings, $name){
+    public function __construct($settings, $name) {
         parent::__construct($settings, $name);
     }
 
-    public function settings($parent){
-        
+    public function settings($parent) {
+
         $this->recurrenceSelector('reminder-freq', $this->settings['reminder-freq'] ?? '', 'How often should people be reminded of remaining content to read', $parent);
 
         return true;
     }
 
-    public function emails($parent){
+    public function emails($parent) {
         ob_start();
         ?>
         <h4>E-mail with read reminders</h4>
@@ -42,51 +42,51 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
         return true;
     }
 
-    public function data($parent=''){
+    public function data($parent='') {
         //Get all the pages with an audience meta key
         $pages = get_posts(
             array(
-                'orderby' 		=> 'post_name',
-                'order' 		=> 'asc',
-                'post_type' 	=> 'any',
-                'post_status' 	=> 'publish',
-                'meta_query'	=> [
+                'orderby'         => 'post_name',
+                'order'         => 'asc',
+                'post_type'     => 'any',
+                'post_status'     => 'publish',
+                'meta_query'    => [
                     [
-                        'key' 		=> "audience",
-                        'compare'	=> 'EXISTS'
+                        'key'         => "audience",
+                        'compare'    => 'EXISTS'
                     ],
                     [
-                        'key' 		=> "audience",
-                        'value'		=> 'a:0:{}',
-                        'compare'	=> '!='
+                        'key'         => "audience",
+                        'value'        => 'a:0:{}',
+                        'compare'    => '!='
                     ],
                     [
-                        'key' 		=> "audience",
-                        'value'		=> '',
-                        'compare'	=> '!='
+                        'key'         => "audience",
+                        'value'        => '',
+                        'compare'    => '!='
                     ]
                 ],
-                'numberposts'	=> -1				// all posts
-            )
-        );
-        
-        if(empty($pages)){
+                'numberposts'    => -1                // all posts
+           )
+       );
+
+        if (empty($pages)) {
             return false;
         }
 
-        $keys	= getAudienceOptions(['empty'], 1);
+        $keys    = getAudienceOptions(['empty'], 1);
         unset($keys['everyone']);
 
         ob_start();
 
         ?>
         <script>
-            function showUserList(pageId, button){
-                document.querySelector(`#wrapper-\${pageId}`).classList.toggle('hidden'); 
-                if(button.textContent.includes('Show')){
-                    button.textContent	= button.textContent.replace('Show', 'Hide') 
+            function showUserList(pageId, button) {
+                document.querySelector(`#wrapper-\${pageId}`).classList.toggle('hidden');
+                if (button.textContent.includes('Show')) {
+                    button.textContent    = button.textContent.replace('Show', 'Hide')
                 }else{
-                    button.textContent	= button.textContent.replace('Hide', 'Show') 
+                    button.textContent    = button.textContent.replace('Hide', 'Show')
                 }
             }
         </script>
@@ -100,84 +100,84 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
             </thead>
             <tbody>
                 <?php
-                foreach($pages as $page){
+                foreach ($pages as $page) {
                     $audience   = get_post_meta($page->ID, 'audience', true);
-                    if(!is_array($audience) && !empty($audience)){
+                    if (!is_array($audience) && !empty($audience)) {
                         $audience  = json_decode($audience, true);
                     }
 
-                    $url	= get_permalink($page->ID);
+                    $url    = get_permalink($page->ID);
 
-                    $users	= [];
+                    $users    = [];
 
                     // Evryone should read this
-                    if(isset($audience['everyone']) || ( isset($audience['beforearrival']) && isset($audience['afterarrival']))){
-                        $metaQuery	= array(
+                    if (isset($audience['everyone']) || ( isset($audience['beforearrival']) && isset($audience['afterarrival']))) {
+                        $metaQuery    = array(
                             array(
-                                'key' 		=> 'read_pages',
-                                'value' 	=> $page->ID,
-                                'compare' 	=> 'NOT LIKE'
-                            )
-                        );
-                    }elseif(isset($audience['beforearrival'])){
-                        $metaQuery	=  array(
+                                'key'         => 'read_pages',
+                                'value'     => $page->ID,
+                                'compare'     => 'NOT LIKE'
+                           )
+                       );
+                    }elseif (isset($audience['beforearrival'])) {
+                        $metaQuery    =  array(
                             'relation' => 'AND',
                             array(
-                                'key' 		=> 'read_pages',
-                                'value' 	=> $page->ID,
-                                'compare' 	=> 'NOT LIKE'
-                            ),
+                                'key'         => 'read_pages',
+                                'value'     => $page->ID,
+                                'compare'     => 'NOT LIKE'
+                           ),
                             array(
-                                'key' 		=> 'arrival_date',
-                                'value' 	=> gmdate('Y-m-d'),
-                                'compare' 	=> '>'
-                            ),
-                        );
-                    }elseif(isset($audience['afterarrival'])){
-                        $metaQuery	=  array(
+                                'key'         => 'arrival_date',
+                                'value'     => gmdate('Y-m-d'),
+                                'compare'     => '>'
+                           ),
+                       );
+                    }elseif (isset($audience['afterarrival'])) {
+                        $metaQuery    =  array(
                             'relation' => 'AND',
                             array(
-                                'key' 		=> 'read_pages',
-                                'value' 	=> $page->ID,
-                                'compare' 	=> 'NOT LIKE'
-                            ),
+                                'key'         => 'read_pages',
+                                'value'     => $page->ID,
+                                'compare'     => 'NOT LIKE'
+                           ),
                             array(
-                                'key' 		=> 'arrival_date',
-                                'value' 	=> gmdate('Y-m-d'),
-                                'compare' 	=> '<'
-                            ),
-                        );
+                                'key'         => 'arrival_date',
+                                'value'     => gmdate('Y-m-d'),
+                                'compare'     => '<'
+                           ),
+                       );
                     }else{
-                        $metaQuery	= '';
+                        $metaQuery    = '';
                     }
 
                     // get all users who have not read this page/post
-                    $users	= get_users(
+                    $users    = get_users(
                         array(
-                            'orderby'		=> 'display_name',
-                            'count_total'	=> false,
-                            'fields'		=> ['display_name', 'ID'],
-                            'meta_query' 	=> $metaQuery
-                        )
-                    );
+                            'orderby'        => 'display_name',
+                            'count_total'    => false,
+                            'fields'        => ['display_name', 'ID'],
+                            'meta_query'     => $metaQuery
+                       )
+                   );
 
                     ?>
                     <tr>
                         <td><a href='$url'><?php echo esc_attr($page->post_title);?></a></td>
                         <td>
                             <?php
-                            if(!empty($users)){
-                                $count			= count($users);
-                                if(defined('TSJIPPY\USERMANAGEMENT\SETTINGS')){
-                                    $userEditPage	= TSJIPPY\getValidPageLink(TSJIPPY\USERMANAGEMENT\SETTINGS['user-edit-page'] ?? '');
+                            if (!empty($users)) {
+                                $count            = count($users);
+                                if (defined('TSJIPPY\USERMANAGEMENT\SETTINGS')) {
+                                    $userEditPage    = TSJIPPY\getValidPageLink(TSJIPPY\USERMANAGEMENT\SETTINGS['user-edit-page'] ?? '');
                                 }else{
-                                    $userEditPage	= '';
+                                    $userEditPage    = '';
                                 }
                                 ?>
                                 <div id='wrapper-<?php echo esc_attr($page->ID);?>' class='hidden'>
                                     <?php echo esc_html($count);?> users still have to read this.
                                     <?php
-                                    foreach($users as $user){
+                                    foreach ($users as $user) {
                                         echo "<a href='$userEditPage?user-id=$user->ID'>$user->display_name<br>";
                                     }?>
                                 </div>
@@ -191,21 +191,21 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                         </td>
 
                         <td><button class='small show-user-list' onclick='showUserList(<?php echo esc_attr($page->ID);?>, this)'>Show who</button></td>
-                        
+
                     </tr>
                     <?php
                 }
-                ?>			
+                ?>
             </tbody>
         </table>
-        <?php 
-        
+        <?php
+
         addRawHtml(ob_get_clean(), $parent);
-    
+
         return true;
     }
 
-    public function functions($parent){
+    public function functions($parent) {
 
         return false;
     }
@@ -213,7 +213,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
     /**
      * Function to do extra actions from $_POST data. Overwrite if needed
      */
-    public function postActions(){
+    public function postActions() {
         return '';
     }
 
@@ -221,18 +221,18 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
      * Schedules the tasks for this plugin
      *
     */
-    public function postSettingsSave(){
+    public function postSettingsSave() {
         scheduleTasks();
 
-        $roleSet = get_role( 'contributor' )->capabilities;
+        $roleSet = get_role('contributor')->capabilities;
 
         // Only add the new role if it does not exist
-        if(!wp_roles()->is_role( 'no_man_docs' )){
+        if (!wp_roles()->is_role('no_man_docs')) {
             add_role(
                 'no_man_docs',
                 'No mandatory documents',
                 $roleSet
-            );
+           );
 
             return "Added the 'No mandatory documents' role";
         }

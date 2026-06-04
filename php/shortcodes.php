@@ -2,153 +2,153 @@
 namespace TSJIPPY\MANDATORY;
 use TSJIPPY;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if ( ! defined('ABSPATH')) {
+    exit;
 }
 
 // add to account dashboard
-add_action('tsjippy_dashboard_warnings', __NAMESPACE__.'\dashboardWarnings', 20);
-function dashboardWarnings($userId){
-	echo mustReadDocuments($userId);
+add_action('tsjippy_dashboard_warnings', __NAMESPACE__ . '\dashboardWarnings', 20);
+function dashboardWarnings($userId) {
+    echo mustReadDocuments($userId);
 }
 
-add_shortcode("must_read_documents", __NAMESPACE__.'\mustReadDocuments');
+add_shortcode("must_read_documents", __NAMESPACE__ . '\mustReadDocuments');
 
 /**
  * Get an unordered list of documents to read
- * @param  int		$userId
- * @param  bool	 	$excludeHeading        	Whether to include a heading for
- * @return string							HTML unordered list
+ * @param  int        $userId
+ * @param  bool         $excludeHeading            Whether to include a heading for
+ * @return string                            HTML unordered list
  */
-function mustReadDocuments($userId='', $excludeHeading=false){
-	$mandatoryReading	= apply_filters('tsjippy-must-read', false, $userId);
-	if(!is_user_logged_in() || !$mandatoryReading){
-		return '';
-	}
-	
-	$html 			= '';
-	$beforeHtml 	= '';
-	$arrivedHtml 	= '';
+function mustReadDocuments($userId='', $excludeHeading=false) {
+    $mandatoryReading    = apply_filters('tsjippy-must-read', false, $userId);
+    if (!is_user_logged_in() || !$mandatoryReading) {
+        return '';
+    }
 
-	wp_enqueue_script('tsjippy_mandatory_script');
+    $html             = '';
+    $beforeHtml     = '';
+    $arrivedHtml     = '';
 
-	if(!is_numeric($userId)){
-		$userId = get_current_user_id();
-	}
+    wp_enqueue_script('tsjippy_mandatory_script');
 
-	// skip if user has the no mandatory pages role
-	$user	= get_userdata($userId);
-	if(in_array('no_man_docs', $user->roles)){
-		return '';
-	}
+    if (!is_numeric($userId)) {
+        $userId = get_current_user_id();
+    }
 
-	//Get all the pages this user already read
-	$readPages		= (array)get_user_meta( $userId, 'read_pages', true );
+    // skip if user has the no mandatory pages role
+    $user    = get_userdata($userId);
+    if (in_array('no_man_docs', $user->roles)) {
+        return '';
+    }
 
-	//Get the users arrival date
-	$arrivalDate 	= strtotime(get_user_meta( $userId, 'arrival_date', true ));
-	if(!$arrivalDate || $arrivalDate < time()){
-		$arrived = true;
-	}else{
-		$arrived = false;
-	}
+    //Get all the pages this user already read
+    $readPages        = (array)get_user_meta($userId, 'read_pages', true);
 
-	//Get all the pages with an audience meta key
-	$pages = get_posts(
-		array(
-			'orderby' 		=> 'post_name',
-			'order' 		=> 'asc',
-			'post_type' 	=> 'any',
-			'post_status' 	=> 'publish',
-			'meta_key' 		=> "audience",
-			'numberposts'	=> -1,				// all posts
-			'author' 		=> '-'.$userId		// exclude own posts
-		)
-	);
+    //Get the users arrival date
+    $arrivalDate     = strtotime(get_user_meta($userId, 'arrival_date', true));
+    if (!$arrivalDate || $arrivalDate < time()) {
+        $arrived = true;
+    }else{
+        $arrived = false;
+    }
 
-	//Loop over the pages while building the html
-	$arrivedPagesCount = 0;
-	foreach($pages as $page){
-		//check if already read
-		if(!in_array($page->ID, $readPages)){
-			$audience   = get_post_meta($page->ID, 'audience', true);
-			if(!is_array($audience) && !empty($audience)){
-				$audience  = json_decode($audience, true);
-			}
+    //Get all the pages with an audience meta key
+    $pages = get_posts(
+        array(
+            'orderby'         => 'post_name',
+            'order'         => 'asc',
+            'post_type'     => 'any',
+            'post_status'     => 'publish',
+            'meta_key'         => "audience",
+            'numberposts'    => -1,                // all posts
+            'author'         => '-' .$userId        // exclude own posts
+       )
+   );
 
-			//Add a link if not yet in the country and should read before arriving
-			if(isset($audience['beforearrival']) && !$arrived){
-				$beforeHtml .= '<li><a href="'.get_permalink($page->ID).'">'.$page->post_title.'</a></li>';
-			}
+    //Loop over the pages while building the html
+    $arrivedPagesCount = 0;
+    foreach ($pages as $page) {
+        //check if already read
+        if (!in_array($page->ID, $readPages)) {
+            $audience   = get_post_meta($page->ID, 'audience', true);
+            if (!is_array($audience) && !empty($audience)) {
+                $audience  = json_decode($audience, true);
+            }
 
-			//Page has not been read, scheck if it should be read
-			$mustRead	= false;
-			if(
-				(
-					isset($audience['afterarrival']) 	||			// People should read this after arrival
-					(
-						isset($audience['everyone'])	&&			// Or everyone should read this
-						$arrivalDate < strtotime($page->post_date)	// And arrived before the post was published
-					)
-				)										&&			// AND
-				(
-					!isset($audience['beforearrival'])	|| 			// The before arrival is not set
-					(
-						isset($audience['beforearrival'])	&&		// Or it is set but we have arrived
-						$arrived
-					)
-				)
-			){
-				$mustRead	= true;
-			}
+            //Add a link if not yet in the country and should read before arriving
+            if (isset($audience['beforearrival']) && !$arrived) {
+                $beforeHtml .= '<li><a href="' .get_permalink($page->ID). '">' .$page->post_title. '</a></li>';
+            }
 
-			// filter the value
-			$mustRead	= apply_filters('tsjippy_should_read_mandatory_page', $mustRead, $audience, $userId);
+            //Page has not been read, scheck if it should be read
+            $mustRead    = false;
+            if (
+                (
+                    isset($audience['afterarrival'])     ||            // People should read this after arrival
+                    (
+                        isset($audience['everyone'])    &&            // Or everyone should read this
+                        $arrivalDate < strtotime($page->post_date)    // And arrived before the post was published
+                   )
+               )                                        &&            // AND
+                (
+                    !isset($audience['beforearrival'])    ||             // The before arrival is not set
+                    (
+                        isset($audience['beforearrival'])    &&        // Or it is set but we have arrived
+                        $arrived
+                   )
+               )
+           ) {
+                $mustRead    = true;
+            }
 
-			if($mustRead){
-				$arrivedHtml .= '<li><a href="'.get_permalink($page->ID).'">'.$page->post_title.'</a></li>';
-				$arrivedPagesCount++;
-			}
-		}
-	}
+            // filter the value
+            $mustRead    = apply_filters('tsjippy_should_read_mandatory_page', $mustRead, $audience, $userId);
 
-	///Documents to read before arrival
-	if(!empty($beforeHtml) && !$arrived){
-		if(!$excludeHeading){
-			$html .= "<h3>Welcome!</h3>";
-			$html .= "<p>";
-				$html .= "We are so happy to welcome you!<br>";
-				$html .= "Please read and/or download the documents below to prepare for your stay.";
-			$html .= "</p>";
-		}
-		$html .= "<ul>$beforeHtml</ul>";
-	}
+            if ($mustRead) {
+                $arrivedHtml .= '<li><a href="' .get_permalink($page->ID). '">' .$page->post_title. '</a></li>';
+                $arrivedPagesCount++;
+            }
+        }
+    }
 
-	//Documents to read after arrival
-	if(!empty($arrivedHtml)){
-		if(!$excludeHeading){
-			$html .= "<h3>Important Reading for You Today</h3>";
-		}
-		$html .= "<ul>$arrivedHtml</ul>";
-	}
+    ///Documents to read before arrival
+    if (!empty($beforeHtml) && !$arrived) {
+        if (!$excludeHeading) {
+            $html .= "<h3>Welcome!</h3>";
+            $html .= "<p>";
+                $html .= "We are so happy to welcome you!<br>";
+                $html .= "Please read and/or download the documents below to prepare for your stay. ";
+            $html .= "</p>";
+        }
+        $html .= "<ul>$beforeHtml</ul>";
+    }
 
-	if(wp_doing_cron()){
-		return '';
-	}
+    //Documents to read after arrival
+    if (!empty($arrivedHtml)) {
+        if (!$excludeHeading) {
+            $html .= "<h3>Important Reading for You Today</h3>";
+        }
+        $html .= "<ul>$arrivedHtml</ul>";
+    }
 
-	if(empty($html)){
-		if(str_contains($_SERVER['REQUEST_URI'], 'wp-admin/post.php')|| str_contains($_SERVER['REQUEST_URI'], 'wp-json')){
-			return 'Mandatory pages block<br>This will show empty as you have not pages to read';
-		}
+    if (wp_doing_cron()) {
+        return '';
+    }
 
-		return '';
-	}
+    if (empty($html)) {
+        if (str_contains($_SERVER['REQUEST_URI'], 'wp-admin/post.php')|| str_contains($_SERVER['REQUEST_URI'], 'wp-json')) {
+            return 'Mandatory pages block<br>This will show empty as you have not pages to read';
+        }
 
-	$extra	= '';
-	if($userId != get_current_user_id()){
-		$extra	=  " for {$user->display_name}";
-	}
-	$html	.= "<button type'button' class='button small mark-all-as-read' data-user-id='$userId'>Mark all pages as read$extra</button>";
+        return '';
+    }
 
-	return "<div id='personalinfo'>$html</div>";
+    $extra    = '';
+    if ($userId != get_current_user_id()) {
+        $extra    =  " for {$user->display_name}";
+    }
+    $html    .= "<button type'button' class='button small mark-all-as-read' data-user-id='$userId'>Mark all pages as read$extra</button>";
+
+    return "<div id='personalinfo'>$html</div>";
 }
