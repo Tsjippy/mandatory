@@ -36,7 +36,7 @@ function readReminder()
             $to = $user->user_email;
 
             //Skip if not valid email
-            if (str_contains($to, ' .empty')) {
+            if (str_contains($to, '.empty')) {
                 continue;
             }
 
