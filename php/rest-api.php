@@ -10,7 +10,7 @@ if (! defined('ABSPATH')) {
 
 // Make mark as read rest api publicy available
 add_filter('tsjippy_allowed_rest_api_urls', function ($urls) {
-    $urls[]    = RESTAPIPREFIX . '/mandatory_content';
+    $urls[]    = TSJIPPY\RESTAPIPREFIX . '/mandatory_content';
 
     return $urls;
 });
@@ -20,7 +20,7 @@ function restApiInit()
 {
     //Route to update mark as read from mailchimp
     register_rest_route(
-        RESTAPIPREFIX . '/mandatory_content',
+        TSJIPPY\RESTAPIPREFIX . '/mandatory_content',
         '/mark_as_read_public',
         array(
             'methods' => 'GET',
@@ -42,7 +42,7 @@ function restApiInit()
 
     // Mark as read from website
     register_rest_route(
-        RESTAPIPREFIX . '/mandatory_content',
+        TSJIPPY\RESTAPIPREFIX . '/mandatory_content',
         '/mark_as_read',
         array(
             'methods' => 'POST',
@@ -74,7 +74,7 @@ function restApiInit()
 
     // Mark all as read
     register_rest_route(
-        RESTAPIPREFIX . '/mandatory_content',
+        TSJIPPY\RESTAPIPREFIX . '/mandatory_content',
         '/mark_all_as_read',
         array(
             'methods'     => 'POST',
@@ -106,7 +106,7 @@ function beforeMailchimpSend($mailContent, $post)
 
     ///add button if mandatory message
     if (!empty($audience['everyone'])) {
-        $url            = SITEURL . "/wp-json/" . RESTAPIPREFIX . "/mandatory_content/mark_as_read_public?email=*|EMAIL|*&post-id={$post->ID}";
+        $url            = TSJIPPY\SITEURL . "/wp-json/" . TSJIPPY\RESTAPIPREFIX . "/mandatory_content/mark_as_read_public?email=*|EMAIL|*&post-id={$post->ID}";
         $style            = "color: white; background-color: #bd2919; border-radius: 3px; text-align: center; margin-right: 10px; padding: 5px 10px;";
         $mailContent    .= "<br><a href='$url' style='$style'>I have read this</a>";
     }

@@ -9,7 +9,7 @@ function blockRestApiInit()
 {
     // show schedules
     register_rest_route(
-        RESTAPIPREFIX . '/mandatory_content',
+        TSJIPPY\RESTAPIPREFIX . '/mandatory_content',
         '/must_read_documents',
         array(
             'methods'                 => 'GET',
