@@ -77,7 +77,7 @@ function afterPostSave($post)
 
         return;
     }
-    $audiences = $_POST['audience'];
+    $audiences = TSJIPPY\sanitize($_POST['audience']);
 
     //Reset to normal if that box is ticked
     if (isset($audiences['normal']) && $audiences['normal'] == 'normal') {

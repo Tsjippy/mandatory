@@ -47,8 +47,8 @@ function restApiInit()
         array(
             'methods' => 'POST',
             'callback' => function () {
-                $userId = $_POST['user-id'];
-                $postId = $_POST['post-id'];
+                $userId = (int) $_POST['user-id'];
+                $postId = (int) $_POST['post-id'];
 
                 markAsRead($userId, $postId);
 
