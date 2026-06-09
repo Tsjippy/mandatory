@@ -15,7 +15,7 @@ function dashboardWarnings($userId)
     echo mustReadDocuments($userId);
 }
 
-add_shortcode("must_read_documents", __NAMESPACE__ . '\mustReadDocuments');
+add_shortcode("tsjippy_must_read_documents", __NAMESPACE__ . '\mustReadDocuments');
 
 /**
  * Get an unordered list of documents to read
@@ -75,7 +75,7 @@ function mustReadDocuments($userId = '', $excludeHeading = false)
     foreach ($pages as $page) {
         //check if already read
         if (!in_array($page->ID, $readPages)) {
-            $audience   = get_post_meta($page->ID, 'audience', true);
+            $audience   = get_post_meta($page->ID, 'tsjippy_audience', true);
             if (!is_array($audience) && !empty($audience)) {
                 $audience  = json_decode($audience, true);
             }

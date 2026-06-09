@@ -203,10 +203,10 @@ function markAllAsRead($userId, $audience = ['everyone'])
     $readPages        = (array)get_user_meta($userId, 'read_pages', true);
 
     foreach ($pages as $page) {
-        $targetAudience    = get_post_meta($page->ID, 'audience', true);
+        $targetAudience    = get_post_meta($page->ID, 'tsjippy_audience', true);
 
         if (empty($targetAudience)) {
-            delete_post_meta($page->ID, 'audience');
+            delete_post_meta($page->ID, 'tsjippy_audience');
             continue;
         } elseif (!is_array($targetAudience)) {
             $targetAudience    = json_decode($targetAudience);

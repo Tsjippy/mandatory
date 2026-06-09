@@ -23,7 +23,7 @@ function markAsReadButton($content)
 
     $postId     = get_the_ID();
     $userId     = get_current_user_id();
-    $audience   = get_post_meta($postId, 'audience', true);
+    $audience   = get_post_meta($postId, 'tsjippy_audience', true);
     if (!is_array($audience) && !empty($audience)) {
         $audience  = json_decode($audience, true);
     }

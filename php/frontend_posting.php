@@ -73,7 +73,7 @@ function afterPostSave($post)
 {
     //store audience
     if (empty($_POST['audience']) || !is_array($_POST['audience'])) {
-        delete_post_meta($post->ID, "audience");
+        delete_post_meta($post->ID, "tsjippy_audience");
 
         return;
     }
@@ -81,14 +81,14 @@ function afterPostSave($post)
 
     //Reset to normal if that box is ticked
     if (isset($audiences['normal']) && $audiences['normal'] == 'normal') {
-        delete_post_meta($post->ID, "audience");
+        delete_post_meta($post->ID, "tsjippy_audience");
         //Store in DB
     } else {
         array_filter($audiences);
 
         //Only continue if there are audiences defined
         if (!empty($audiences)) {
-            update_metadata('post', $post->ID, "audience", json_encode($audiences));
+            update_metadata('post', $post->ID, "tsjippy_audience", json_encode($audiences));
 
             //Mark existing users as if they have read the page if this pages should be read by new people after arrival
             if (isset($audiences['afterarrival']) && !isset($audiences['everyone'])) {
@@ -129,7 +129,7 @@ function afterPostSave($post)
 add_filter('tsjippy_signal_post_notification_message', __NAMESPACE__ . '\postNotification', 10, 2);
 function postNotification($message, $post)
 {
-    $audience   = get_post_meta($post->ID, 'audience', true);
+    $audience   = get_post_meta($post->ID, 'tsjippy_audience', true);
     if (!is_array($audience) && !empty($audience)) {
         $audience  = json_decode($audience, true);
     }

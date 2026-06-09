@@ -99,7 +99,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
             <tbody>
                 <?php
                 foreach ($pages as $page) {
-                    $audience   = get_post_meta($page->ID, 'audience', true);
+                    $audience   = get_post_meta($page->ID, 'tsjippy_audience', true);
                     if (!is_array($audience) && !empty($audience)) {
                         $audience  = json_decode($audience, true);
                     }
