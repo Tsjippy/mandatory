@@ -50,6 +50,8 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
 
     public function data($parent = '')
     {
+        wp_enqueue_script('tsjippy_mandatory_admin', TSJIPPY\pathToUrl(PLUGINPATH . 'js/admin.min.js'), array(), PLUGINVERSION, true);
+
         //Get all the pages with an audience meta key
         $pages = get_posts(
             array(
@@ -86,18 +88,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
 
         ob_start();
 
-    ?>
-        <script>
-            function showUserList(pageId, button) {
-                document.querySelector(`#wrapper-\${pageId}`).classList.toggle('hidden');
-                if (button.textContent.includes('Show')) {
-                    button.textContent = button.textContent.replace('Show', 'Hide')
-                } else {
-                    button.textContent = button.textContent.replace('Hide', 'Show')
-                }
-            }
-        </script>
-
+        ?>
         <table class='mandatory-pages-overview'>
             <thead>
                 <tr>
