@@ -27,10 +27,10 @@ function markAsReadButton($content)
     if (!is_array($audience) && !empty($audience)) {
         $audience  = json_decode($audience, true);
     }
-    $readPages    = (array)get_user_meta($userId, 'read_pages', true);
+    $readPages    = (array)get_user_meta($userId, 'tsjippy_read_pages', true);
 
     //Get the users arrival date
-    $arrivalDate     = strtotime(get_user_meta($userId, 'arrival_date', true));
+    $arrivalDate     = strtotime(get_user_meta($userId, 'tsjippy_arrival_date', true));
     $arrived         = false;
     if ($arrivalDate && $arrivalDate < time()) {
         $arrived = true;

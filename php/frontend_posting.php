@@ -107,12 +107,12 @@ function afterPostSave($post)
                 //Loop over the users
                 foreach ($users as $user) {
                     //get current already read pages
-                    $readPages        = (array)get_user_meta($user->ID, 'read_pages', true);
+                    $readPages        = (array)get_user_meta($user->ID, 'tsjippy_read_pages', true);
 
                     //add current page
                     $readPages[]    = $post->ID;
                     //update
-                    update_user_meta($user->ID, 'read_pages', $readPages);
+                    update_user_meta($user->ID, 'tsjippy_read_pages', $readPages);
                 }
             }
 
