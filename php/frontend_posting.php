@@ -96,9 +96,9 @@ function afterPostSave($post)
                 $users = get_users(array(
                     'meta_query' => array(
                         array(
-                            'key' => 'arrival_date',
-                            'value' => gmdate('Y-m-d', strtotime("-1 months")),
-                            'type' => 'date',
+                            'key'     => 'tsjippy_arrival_date',
+                            'value'   => gmdate('Y-m-d', strtotime("-1 months")),
+                            'type'    => 'date',
                             'compare' => '<='
                         )
                     ),

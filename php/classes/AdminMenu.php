@@ -55,27 +55,27 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
         //Get all the pages with an audience meta key
         $pages = get_posts(
             array(
-                'orderby'         => 'post_name',
+                'orderby'       => 'post_name',
                 'order'         => 'asc',
                 'post_type'     => 'any',
-                'post_status'     => 'publish',
+                'post_status'   => 'publish',
                 'meta_query'    => [
                     [
-                        'key'         => "audience",
-                        'compare'    => 'EXISTS'
+                        'key'     => "tsjippy_audience",
+                        'compare' => 'EXISTS'
                     ],
                     [
-                        'key'         => "audience",
-                        'value'        => 'a:0:{}',
-                        'compare'    => '!='
+                        'key'     => "tsjippy_audience",
+                        'value'   => 'a:0:{}',
+                        'compare' => '!='
                     ],
                     [
-                        'key'         => "audience",
-                        'value'        => '',
-                        'compare'    => '!='
+                        'key'     => "tsjippy_audience",
+                        'value'   => '',
+                        'compare' => '!='
                     ]
                 ],
-                'numberposts'    => -1                // all posts
+                'numberposts'     => -1                // all posts
             )
         );
 
@@ -104,45 +104,43 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
                         $audience  = json_decode($audience, true);
                     }
 
-                    $url    = get_permalink($page->ID);
-
                     $users    = [];
 
                     // Evryone should read this
                     if (isset($audience['everyone']) || (isset($audience['beforearrival']) && isset($audience['afterarrival']))) {
                         $metaQuery    = array(
                             array(
-                                'key'         => 'read_pages',
+                                'key'       => 'tsjippy_read_pages',
                                 'value'     => $page->ID,
-                                'compare'     => 'NOT LIKE'
+                                'compare'   => 'NOT LIKE'
                             )
                         );
                     } elseif (isset($audience['beforearrival'])) {
                         $metaQuery    =  array(
                             'relation' => 'AND',
                             array(
-                                'key'         => 'read_pages',
+                                'key'       => 'tsjippy_read_pages',
                                 'value'     => $page->ID,
-                                'compare'     => 'NOT LIKE'
+                                'compare'   => 'NOT LIKE'
                             ),
                             array(
-                                'key'         => 'arrival_date',
+                                'key'       => 'tsjippy_arrival_date',
                                 'value'     => gmdate('Y-m-d'),
-                                'compare'     => '>'
+                                'compare'   => '>'
                             ),
                         );
                     } elseif (isset($audience['afterarrival'])) {
                         $metaQuery    =  array(
                             'relation' => 'AND',
                             array(
-                                'key'         => 'read_pages',
+                                'key'       => 'tsjippy_read_pages',
                                 'value'     => $page->ID,
-                                'compare'     => 'NOT LIKE'
+                                'compare'   => 'NOT LIKE'
                             ),
                             array(
-                                'key'         => 'arrival_date',
+                                'key'       => 'tsjippy_arrival_date',
                                 'value'     => gmdate('Y-m-d'),
-                                'compare'     => '<'
+                                'compare'   => '<'
                             ),
                         );
                     } else {
@@ -152,10 +150,10 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
                     // get all users who have not read this page/post
                     $users    = get_users(
                         array(
-                            'orderby'        => 'display_name',
-                            'count_total'    => false,
+                            'orderby'       => 'display_name',
+                            'count_total'   => false,
                             'fields'        => ['display_name', 'ID'],
-                            'meta_query'     => $metaQuery
+                            'meta_query'    => $metaQuery
                         )
                     );
 
