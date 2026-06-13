@@ -130,7 +130,7 @@ function markAsReadFromEmail(\WP_REST_Request $request)
 
         //no user, check secundairy email
         if (!is_numeric($userId)) {
-            $userId = get_users(['meta_key' => 'email', 'meta_value' => $email])[0]->ID;
+            $userId = get_users(['meta_key' => 'tsjippy_email', 'meta_value' => $email])[0]->ID;
         }
 
         $title    = get_the_title($postId);
@@ -192,10 +192,10 @@ function markAllAsRead($userId, $audience = ['everyone'])
     //Get all the pages with an audience meta key
     $pages = get_posts(
         array(
-            'post_type'     => 'any',
-            'post_status'     => 'publish',
-            'meta_key'         => "audience",
-            'numberposts'    => -1,                // all posts
+            'post_type'   => 'any',
+            'post_status' => 'publish',
+            'meta_key'    => "tsjippy_audience",
+            'numberposts' => -1,                // all posts
         )
     );
 

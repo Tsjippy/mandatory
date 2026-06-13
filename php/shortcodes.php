@@ -60,13 +60,13 @@ function mustReadDocuments($userId = '', $excludeHeading = false)
     //Get all the pages with an audience meta key
     $pages = get_posts(
         array(
-            'orderby'         => 'post_name',
-            'order'         => 'asc',
-            'post_type'     => 'any',
-            'post_status'     => 'publish',
-            'meta_key'         => "audience",
-            'numberposts'    => -1,                // all posts
-            'author'         => '-' . $userId        // exclude own posts
+            'orderby'     => 'post_name',
+            'order'       => 'asc',
+            'post_type'   => 'any',
+            'post_status' => 'publish',
+            'meta_key'    => "tsjippy_audience",
+            'numberposts' => -1,                // all posts
+            'author'      => '-' . $userId      // exclude own posts
         )
     );
 
