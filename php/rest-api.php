@@ -9,7 +9,7 @@ if (! defined('ABSPATH')) {
 }
 
 // Make mark as read rest api publicy available
-add_filter('tsjippy_allowed_rest_api_urls', function ($urls) {
+add_filter('tsjippy-allowed-rest-api-urls', function ($urls) {
     $urls[]    = TSJIPPY\RESTAPIPREFIX . '/mandatory_content';
 
     return $urls;
@@ -96,7 +96,7 @@ function restApiInit()
     );
 }
 
-add_filter('tsjippy_before_mailchimp_send', __NAMESPACE__ . '\beforeMailchimpSend', 10, 2);
+add_filter('tsjippy-before-mailchimp-send', __NAMESPACE__ . '\beforeMailchimpSend', 10, 2);
 function beforeMailchimpSend($mailContent, $post)
 {
     $audience   = get_post_meta($post->ID, 'audience', true);

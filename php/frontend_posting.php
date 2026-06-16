@@ -24,14 +24,14 @@ function getAudienceOptions($audience, $postId)
         $keys['normal'] = "normal";
     }
 
-    return apply_filters('tsjippy_mandatory_audience_param', $keys);
+    return apply_filters('tsjippy-mandatory-audience-param', $keys);
 }
 
 /**
  * Adding fields to the frontend posting screen
  * @param  object $frontendContend     frontendContend instance
  */
-add_action('tsjippy_frontend_post_after_content', __NAMESPACE__ . '\afterContent');
+add_action('tsjippy-frontend-post-after-content', __NAMESPACE__ . '\afterContent');
 function afterContent($frontendContend)
 {
     $audience   = $frontendContend->getPostMeta('audience');
@@ -68,7 +68,7 @@ function afterContent($frontendContend)
  * Save the mandatory options
  * @param  object $frontendContend     frontendContend instance
  */
-add_action('tsjippy_after_post_save', __NAMESPACE__ . '\afterPostSave');
+add_action('tsjippy-after-post-save', __NAMESPACE__ . '\afterPostSave');
 function afterPostSave($post)
 {
     //store audience
@@ -116,7 +116,7 @@ function afterPostSave($post)
                 }
             }
 
-            do_action('tsjippy_mandatory_save_audience_param', $audiences, $post);
+            do_action('tsjippy-mandatory-save-audience-param', $audiences, $post);
         }
     }
 }
@@ -126,7 +126,7 @@ function afterPostSave($post)
  * @param  string $message     Signal message
  * @return string            The message
  */
-add_filter('tsjippy_signal_post_notification_message', __NAMESPACE__ . '\postNotification', 10, 2);
+add_filter('tsjippy-signal-post-notification-message', __NAMESPACE__ . '\postNotification', 10, 2);
 function postNotification($message, $post)
 {
     $audience   = get_post_meta($post->ID, 'tsjippy_audience', true);

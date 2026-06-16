@@ -10,14 +10,14 @@ if (! defined('ABSPATH')) {
 
 add_action('init', function () {
     //add action for use in scheduled task
-    add_action('read_reminder_action', __NAMESPACE__ . '\readReminder');
+    add_action('tsjippy-read-reminder', __NAMESPACE__ . '\readReminder');
 });
 
 function scheduleTasks()
 {
     $freq   = SETTINGS['reminder-freq'] ?? false;
     if ($freq) {
-        TSJIPPY\scheduleTask('read_reminder_action', $freq);
+        TSJIPPY\scheduleTask('tsjippy-read-reminder', $freq);
     }
 }
 

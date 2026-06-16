@@ -41,5 +41,5 @@ define(__NAMESPACE__ . '\SETTINGS', get_option('tsjippy_' . PLUGINSLUG . '_setti
 
 // Remove scheduled tasks upon plugin deactivation
 register_deactivation_hook(__FILE__, function () {
-    wp_clear_scheduled_hook('read_reminder_action');
+    wp_clear_scheduled_hook('read-reminder');
 });
