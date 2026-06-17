@@ -194,7 +194,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
                 ?>
             </tbody>
         </table>
-<?php
+        <?php
 
         addRawHtml(ob_get_clean(), $parent);
 
