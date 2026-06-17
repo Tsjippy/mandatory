@@ -96,7 +96,7 @@ function restApiInit()
     );
 }
 
-add_filter('tsjippy-before-mailchimp-send', __NAMESPACE__ . '\beforeMailchimpSend', 10, 2);
+add_filter('tsjippy-mailchimp-before-send', __NAMESPACE__ . '\beforeMailchimpSend', 10, 2);
 function beforeMailchimpSend($mailContent, $post)
 {
     $audience   = get_post_meta($post->ID, 'audience', true);

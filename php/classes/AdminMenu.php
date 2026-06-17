@@ -221,8 +221,6 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
      */
     public function postSettingsSave()
     {
-        scheduleTasks();
-
         $roleSet = get_role('contributor')->capabilities;
 
         // Only add the new role if it does not exist

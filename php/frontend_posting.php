@@ -31,7 +31,7 @@ function getAudienceOptions($audience, $postId)
  * Adding fields to the frontend posting screen
  * @param  object $frontendContend     frontendContend instance
  */
-add_action('tsjippy-frontend-post-after-content', __NAMESPACE__ . '\afterContent');
+add_action('tsjippy-frontend-content-post-after-content', __NAMESPACE__ . '\afterContent');
 function afterContent($frontendContend)
 {
     $audience   = $frontendContend->getPostMeta('audience');
@@ -68,7 +68,7 @@ function afterContent($frontendContend)
  * Save the mandatory options
  * @param  object $frontendContend     frontendContend instance
  */
-add_action('tsjippy-after-post-save', __NAMESPACE__ . '\afterPostSave');
+add_action('tsjippy-frontend-content-after-post-save', __NAMESPACE__ . '\afterPostSave');
 function afterPostSave($post)
 {
     //store audience

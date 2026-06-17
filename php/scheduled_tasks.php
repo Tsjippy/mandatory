@@ -9,17 +9,11 @@ if (! defined('ABSPATH')) {
 }
 
 add_action('init', function () {
-    //add action for use in scheduled task
-    add_action('tsjippy-read-reminder', __NAMESPACE__ . '\readReminder');
-});
-
-function scheduleTasks()
-{
     $freq   = SETTINGS['reminder-freq'] ?? false;
     if ($freq) {
-        TSJIPPY\scheduleTask('tsjippy-read-reminder', $freq);
+        TSJIPPY\scheduleTask('tsjippy-read-reminder', $freq, __NAMESPACE__, 'readReminder');
     }
-}
+});
 
 /**
  * Send an e-mail to remind people to read their mandatory content

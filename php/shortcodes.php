@@ -9,7 +9,7 @@ if (! defined('ABSPATH')) {
 }
 
 // add to account dashboard
-add_action('tsjippy-dashboard-warnings', __NAMESPACE__ . '\dashboardWarnings', 20);
+add_action('tsjippy-user-management-dashboard-warnings', __NAMESPACE__ . '\dashboardWarnings', 20);
 function dashboardWarnings($userId)
 {
     echo mustReadDocuments($userId);
@@ -25,7 +25,7 @@ add_shortcode("tsjippy_must_read_documents", __NAMESPACE__ . '\mustReadDocuments
  */
 function mustReadDocuments($userId = '', $excludeHeading = false)
 {
-    $mandatoryReading    = apply_filters('tsjippy-must-read', false, $userId);
+    $mandatoryReading    = apply_filters('tsjippy-mandatory-must-read', false, $userId);
     if (!is_user_logged_in() || !$mandatoryReading) {
         return '';
     }
@@ -107,7 +107,7 @@ function mustReadDocuments($userId = '', $excludeHeading = false)
             }
 
             // filter the value
-            $mustRead    = apply_filters('tsjippy-should-read-mandatory-page', $mustRead, $audience, $userId);
+            $mustRead    = apply_filters('tsjippy-mandatory-should-read-mandatory-page', $mustRead, $audience, $userId);
 
             if ($mustRead) {
                 $arrivedHtml .= '<li><a href="' . get_permalink($page->ID) . '">' . $page->post_title . '</a></li>';
