@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- storing read pages
 
 ### Fixed
 
