@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- storing read pages
 
 ### Fixed
 
 ### Updated
+
+## [10.2.6] - 2026-06-23
+
+
+### Changed
+- storing read pages
 
 ## [10.2.5] - 2026-06-23
 
