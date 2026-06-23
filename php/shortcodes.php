@@ -47,7 +47,7 @@ function mustReadDocuments($userId = '', $excludeHeading = false)
     }
 
     //Get all the pages this user already read
-    $readPages        = (array)get_user_meta($userId, 'tsjippy_read_pages', true);
+    $readPages        = get_user_meta($userId, 'tsjippy_read_pages');
 
     //Get the users arrival date
     $arrivalDate     = strtotime(get_user_meta($userId, 'tsjippy_arrival_date', true));

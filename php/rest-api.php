@@ -142,14 +142,8 @@ function markAsReadFromEmail(\WP_REST_Request $request)
             $message    = "We could not find the page";
             $type        = 'Error';
         } else {
-            //get current alread read pages
-            $readPages        = (array)get_user_meta($userId, 'tsjippy_read_pages', true);
-
             //add current page
-            $readPages[]    = $postId;
-
-            //update
-            update_user_meta($userId, 'tsjippy_read_pages', $readPages);
+            add_user_meta($userId, 'tsjippy_read_pages', $postId);
 
             $message    = "Succesfully marked '" . get_the_title($postId) . "' as read. ";
             $type        = 'Success';
@@ -165,17 +159,7 @@ function markAsReadFromEmail(\WP_REST_Request $request)
  */
 function markAsRead($userId, $postId)
 {
-    //get current alread read pages
-    $readPages        = (array)get_user_meta($userId, 'tsjippy_read_pages', true);
-
-    //only add if not already there
-    if (!in_array($postId, $readPages)) {
-        //add current page
-        $readPages[]    = $postId;
-
-        //update db
-        update_user_meta($userId, 'tsjippy_read_pages', $readPages);
-    }
+    add_user_meta($userId, 'tsjippy_read_pages', $postId);
 }
 
 
@@ -188,7 +172,6 @@ function markAsRead($userId, $postId)
  */
 function markAllAsRead($userId, $audience = ['everyone'])
 {
-
     //Get all the pages with an audience meta key
     $pages = get_posts(
         array(
@@ -199,27 +182,9 @@ function markAllAsRead($userId, $audience = ['everyone'])
         )
     );
 
-    //get current alread read pages
-    $readPages        = (array)get_user_meta($userId, 'tsjippy_read_pages', true);
-
     foreach ($pages as $page) {
-        $targetAudience    = get_post_meta($page->ID, 'tsjippy_audience', true);
-
-        if (empty($targetAudience)) {
-            delete_post_meta($page->ID, 'tsjippy_audience');
-            continue;
-        } elseif (!is_array($targetAudience)) {
-            $targetAudience    = json_decode($targetAudience);
-        }
-
-        if ($audience == 'all' || array_intersect($audience, array_keys((array)$targetAudience))) {
-            //add current page
-            $readPages[]    = $page->ID;
-        }
+        add_user_meta($userId, 'tsjippy_read_pages', $page->ID);
     }
-
-    //update in db
-    update_user_meta($userId, 'tsjippy_read_pages', $readPages);
 
     return "Succesfully marked all pages as read for " . get_userdata($userId)->display_name;
 }

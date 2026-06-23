@@ -27,7 +27,7 @@ function markAsReadButton($content)
     if (!is_array($audience) && !empty($audience)) {
         $audience  = json_decode($audience, true);
     }
-    $readPages    = (array)get_user_meta($userId, 'tsjippy_read_pages', true);
+    $readPages    = get_user_meta($userId, 'tsjippy_read_pages');
 
     //Get the users arrival date
     $arrivalDate     = strtotime(get_user_meta($userId, 'tsjippy_arrival_date', true));
@@ -39,10 +39,10 @@ function markAsReadButton($content)
     //People should read this, and have not read it yet
     if (
         get_the_author_meta('ID') != $userId                    &&
-        !in_array($postId, $readPages)                            &&
+        !in_array($postId, $readPages)                          &&
         (
             (isset($audience['beforearrival']) && !$arrived)    ||
-            isset($audience['afterarrival'])                     ||
+            isset($audience['afterarrival'])                    ||
             isset($audience['everyone'])
         )
     ) {
