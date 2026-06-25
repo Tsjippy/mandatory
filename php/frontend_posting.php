@@ -76,18 +76,23 @@ function afterContent($frontendContend)
 
 /**
  * Save the mandatory options
- * @param  object $frontendContend     frontendContend instance
+/**
+ * Allow comments
+ * 
+ * @param   \WP_Post    $post       The new or updated post
+ * @param   object      $object     FrontEndContent Instance
+ * @param   array       $request    The sanitized request data
  */
-add_action('tsjippy-frontend-content-after-post-save', __NAMESPACE__ . '\afterPostSave');
-function afterPostSave($post)
+add_action('tsjippy-frontend-content-after-post-save', __NAMESPACE__ . '\afterPostSave', 10, 3);
+function afterPostSave($post, $object, $request)
 {
     //store audience
-    if (empty($_POST['audience']) || !is_array($_POST['audience'])) {
+    if (empty($request['audience']) || !is_array($request['audience'])) {
         delete_post_meta($post->ID, "tsjippy_audience");
 
         return;
     }
-    $audiences = TSJIPPY\sanitize($_POST['audience']);
+    $audiences = $request['audience'];
 
     //Reset to normal if that box is ticked
     if (isset($audiences['normal']) && $audiences['normal'] == 'normal') {
