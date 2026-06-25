@@ -30,7 +30,7 @@ function getAudienceOptions($audience, $postId)
  * Adding fields to the frontend posting screen
  * @param  object $frontendContend     frontendContend instance
  */
-add_action('tsjippy-frontend-content-post-after-content', __NAMESPACE__ . '\afterContent');
+add_action('tsjippy-frontend-content-post-after-content', __NAMESPACE__ . '\afterContent', 20);
 function afterContent($frontendContend)
 {
     $audience   = $frontendContend->getPostMeta('audience');
