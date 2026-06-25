@@ -208,18 +208,10 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
     }
 
     /**
-     * Function to do extra actions from $_POST data. Overwrite if needed
-     */
-    public function postActions()
-    {
-        return '';
-    }
-
-    /**
      * Schedules the tasks for this plugin
      *
      */
-    public function postSettingsSave()
+    public function postSettingsSave($request)
     {
         $roleSet = get_role('contributor')->capabilities;
 
