@@ -14,11 +14,10 @@ if (! defined('ABSPATH')) {
 function getAudienceOptions($audience, $postId)
 {
     $keys    = [
-        'beforearrival'        => "People should read this before arriving in the country (pre-field)",
-        'afterarrival'        => "People should read this after arriving in the country",
-        'everyone'            => "Everyone must read this no matter how long in the country"
+        'beforearrival' => "People should read this before arriving in the country (pre-field)",
+        'afterarrival'  => "People should read this after arriving in the country",
+        'everyone'      => "Everyone must read this no matter how long in the country"
     ];
-
 
     if ($postId != null && is_array($audience) && !empty($audience)) {
         $keys['normal'] = "normal";
@@ -39,27 +38,38 @@ function afterContent($frontendContend)
         $audience  = json_decode($audience, true);
     }
 
+    $keys    = getAudienceOptions($audience, $frontendContend->postId);
+
 ?>
-    <div id="recipients" class="frontend-form property post page<?php if ($frontendContend->postType != 'page' && $frontendContend->postType != 'post') {
-                                                                    echo ' hidden';
-                                                                } ?>">
-        <h4>Audience</h4>
-        <?php
-        $keys    = getAudienceOptions($audience, $frontendContend->postId);
+    <div
+        id="recipients"
+        class="frontend-form property post page expand-wrapper
+    <?php if ($frontendContend->postType != 'page' && $frontendContend->postType != 'post') {
+        echo ' hidden';
+    } ?>">
+        <h4>
+            Audience
+            <button class="button small expand" type='button'>&#9660;</button>
+        </h4>
 
-        foreach ($keys as $key => $label) {
-            if (isset($audience[$key])) {
-                $checked    = 'checked';
-            } else {
-                $checked    = '';
+        <div class="hidden expandable">
+            <?php
+            foreach ($keys as $key => $label) {
+            ?>
+                <label>
+                    <input
+                        type='checkbox'
+                        name='audience[<?php echo esc_attr($key); ?>]'
+                        value='<?php echo esc_attr($key); ?>'
+                        <?php if (isset($audience[$key])) {
+                            echo 'checked';
+                        } ?>>
+                    <?php echo wp_kses_post($label); ?>
+                </label><br>
+            <?php
             }
-
-            echo "<label>";
-            echo "<input type='checkbox' name='audience[$key]' value='$key' $checked>";
-            echo $label;
-            echo "</label><br>";
-        }
-        ?>
+            ?>
+        </div>
     </div>
 <?php
 }
