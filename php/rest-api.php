@@ -99,7 +99,7 @@ function restApiInit()
 add_filter('tsjippy-mailchimp-before-send', __NAMESPACE__ . '\beforeMailchimpSend', 10, 2);
 function beforeMailchimpSend($mailContent, $post)
 {
-    $audience   = get_post_meta($post->ID, 'audience', true);
+    $audience   = get_post_meta($post->ID, "tsjippy_audience", true);
     if (!is_array($audience) && !empty($audience)) {
         $audience  = json_decode($audience, true);
     }

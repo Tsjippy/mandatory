@@ -15,11 +15,11 @@ function initBlocks()
     );
 
     // register custom meta tag field
-    register_post_meta('', 'audience', array(
-        'show_in_rest'         => true,
-        'single'             => true,
-        'type'                 => 'string',
-        'default'            => '{}',
+    register_post_meta('', "tsjippy_audience", array(
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'string',
+        'default'           => '{}',
         'sanitize_callback' => 'sanitize_text_field'
     ));
 }
