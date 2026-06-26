@@ -20,7 +20,6 @@ add_action('init', function () {
  */
 function readReminder()
 {
-
     $users = TSJIPPY\getUserAccounts();
     foreach ($users as $user) {
         $html = mustReadDocuments($user->ID);

@@ -44,9 +44,7 @@ function afterContent($frontendContend)
     <div
         id="recipients"
         class="frontend-form property post page expand-wrapper
-    <?php if ($frontendContend->postType != 'page' && $frontendContend->postType != 'post') {
-        echo ' hidden';
-    } ?>">
+        <?php if ($frontendContend->postType != 'page' && $frontendContend->postType != 'post') echo ' hidden'; ?>">
         <h4>
             Audience
             <button class="button small expand" type='button'>&#9660;</button>
@@ -61,9 +59,7 @@ function afterContent($frontendContend)
                         type='checkbox'
                         name='audience[<?php echo esc_attr($key); ?>]'
                         value='<?php echo esc_attr($key); ?>'
-                        <?php if (isset($audience[$key])) {
-                            echo 'checked';
-                        } ?>>
+                        <?php if (isset($audience[$key])) echo 'checked'; ?>>
                     <?php echo wp_kses_post($label); ?>
                 </label><br>
             <?php

@@ -169,24 +169,33 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
                                 } else {
                                     $userEditPage    = '';
                                 }
-                            ?>
+                                ?>
                                 <div id='wrapper-<?php echo esc_attr($page->ID); ?>' class='hidden'>
                                     <?php echo esc_html($count); ?> users still have to read this.
                                     <?php
                                     foreach ($users as $user) {
-                                        echo "<a href='$userEditPage?user-id=$user->ID'>$user->display_name<br>";
+                                        ?>
+                                        <a href='<?php echo esc_url($userEditPage);?>?user-id=$user->ID'>
+                                            <?php echo esc_html($user->display_name);?>
+                                        </a>
+                                         <br>
+                                         <?php
                                     } ?>
                                 </div>
-                            <?php
+                                <?php
                             } else {
-                            ?>
+                                ?>
                                 Read by everyone
-                            <?php
+                                <?php
                             }
                             ?>
                         </td>
 
-                        <td><button class='small show-user-list' onclick='showUserList(<?php echo esc_attr($page->ID); ?>, this)'>Show who</button></td>
+                        <td>
+                            <button class='small show-user-list' onclick='showUserList(<?php echo esc_attr($page->ID); ?>, this)'>
+                                Show who
+                            </button>
+                        </td>
 
                     </tr>
                 <?php
