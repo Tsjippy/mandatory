@@ -32,7 +32,7 @@ registerPlugin("mandatory-audience", {
         delete newAudience[key];
       }
 
-      newMeta["audience"] = JSON.stringify(newAudience);
+      newMeta["tsjippy_audience"] = JSON.stringify(newAudience);
 
       setMeta(newMeta);
     };
