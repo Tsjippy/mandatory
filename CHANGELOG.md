@@ -8,6 +8,7 @@
 - plugin tested up to 7.0
 
 ### Fixed
+- count mandatory pages
 
 ### Updated
 
