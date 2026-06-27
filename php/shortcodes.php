@@ -67,6 +67,8 @@ function mustReadDocuments($userId = '', $excludeHeading = false, $echo = false)
 
     $ul    = addElement('ul', $wrapper, ['id' => 'must-read-list']);
 
+    $count = 0;
+
     //Loop over the pages while building the html
     foreach ($posts as $post) {
         // We do not have to read them if we are the author
@@ -99,11 +101,13 @@ function mustReadDocuments($userId = '', $excludeHeading = false, $echo = false)
             if ($mustRead) {
                 $li = addElement('li', $ul);
                 addElement('a', $li, ['href' =>  get_permalink($post->ID)], $post->post_title);
+
+                $count++;
             }
         }
     }
 
-    if (empty($posts)) {
+    if (empty($count)) {
         if (str_contains($_SERVER['REQUEST_URI'], 'wp-admin/post.php') || str_contains($_SERVER['REQUEST_URI'], 'wp-json')) {
             return 'Mandatory pages block<br>This will show empty as you have not pages to read';
         }
@@ -120,7 +124,7 @@ function mustReadDocuments($userId = '', $excludeHeading = false, $echo = false)
         $text .=  " for {$user->display_name}";
     }
 
-    addElement('button', $wrapper, ['type' => 'button', 'class' => 'button small mark-all-as-read', 'data-user-id' => '$userId'], $text);
+    addElement('button', $wrapper, ['type' => 'button', 'class' => 'button small mark-all-as-read', 'data-user-id' => $userId], $text);
 
     if($echo){
         // phpcs:ignore
