@@ -3,6 +3,7 @@
 
 ### Added
 - attribute escaping
+- mandatory pages keys
 
 ### Changed
 - plugin tested up to 7.0
