@@ -7,6 +7,7 @@
 
 ### Changed
 - plugin tested up to 7.0
+- moved arrival data to sim nigeria plugin
 
 ### Fixed
 - count mandatory pages
