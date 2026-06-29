@@ -69,8 +69,6 @@ function afterContent($frontendContend)
 }
 
 /**
- * Save the mandatory options
-/**
  * Allow comments
  * 
  * @param   \WP_Post    $post       The new or updated post
@@ -89,7 +87,7 @@ function afterPostSave($post, $object, $request)
     $audiences = $request['audience'];
 
     //Reset to normal if that box is ticked
-    if (isset($audiences['normal']) && $audiences['normal'] == 'normal') {
+    if (($audiences['normal'] ?? '') == 'normal') {
         delete_post_meta($post->ID, "tsjippy_audience");
         //Store in DB
     } else {
@@ -98,27 +96,6 @@ function afterPostSave($post, $object, $request)
         //Only continue if there are audiences defined
         if (!empty($audiences)) {
             update_metadata('post', $post->ID, "tsjippy_audience", json_encode($audiences));
-
-            //Mark existing users as if they have read the page if this pages should be read by new people after arrival
-            if (isset($audiences['afterarrival']) && !isset($audiences['everyone'])) {
-                //Get all users who are longer than 1 month in the country
-                $users = get_users(array(
-                    'meta_query' => array(
-                        array(
-                            'key'     => 'tsjippy_arrival_date',
-                            'value'   => gmdate('Y-m-d', strtotime("-1 months")),
-                            'type'    => 'date',
-                            'compare' => '<='
-                        )
-                    ),
-                ));
-
-                //Loop over the users
-                foreach ($users as $user) {
-                    //add current page
-                    add_user_meta($user->ID, 'tsjippy_read_pages', $post->ID);
-                }
-            }
 
             do_action('tsjippy-mandatory-save-audience-param', $audiences, $post);
         }
