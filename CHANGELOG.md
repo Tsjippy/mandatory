@@ -8,6 +8,7 @@
 ### Changed
 - plugin tested up to 7.0
 - moved arrival data to sim nigeria plugin
+- shouldRead function for cleaner code
 
 ### Fixed
 - count mandatory pages
