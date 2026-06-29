@@ -10,6 +10,7 @@
 
 ### Fixed
 - count mandatory pages
+- admin page
 
 ### Updated
 
