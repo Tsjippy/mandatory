@@ -86,14 +86,26 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
         $keys    = getAudienceOptions(['empty'], 1);
         unset($keys['everyone']);
 
+        // get all users 
+        $users    = get_users(
+            array(
+                'orderby'       => 'display_name',
+                'fields'        => ['display_name', 'ID']
+            )
+        );
+
         ob_start();
 
         ?>
         <table class='mandatory-pages-overview'>
             <thead>
                 <tr>
-                    <th>Page</th>
-                    <th>Users</th>
+                    <th>
+                        Page
+                    </th>
+                    <th>
+                        Users
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -104,86 +116,63 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
                         $audience  = json_decode($audience, true);
                     }
 
-                    $users    = [];
-
-                    // Evryone should read this
-                    if (isset($audience['everyone']) || (isset($audience['beforearrival']) && isset($audience['afterarrival']))) {
-                        $metaQuery    = array(
-                            array(
-                                'key'       => 'tsjippy_read_pages',
-                                'value'     => $page->ID,
-                                'compare'   => 'NOT LIKE'
-                            )
-                        );
-                    } elseif (isset($audience['beforearrival'])) {
-                        $metaQuery    =  array(
-                            'relation' => 'AND',
-                            array(
-                                'key'       => 'tsjippy_read_pages',
-                                'value'     => $page->ID,
-                                'compare'   => 'NOT LIKE'
-                            ),
-                            array(
-                                'key'       => 'tsjippy_arrival_date',
-                                'value'     => gmdate('Y-m-d'),
-                                'compare'   => '>'
-                            ),
-                        );
-                    } elseif (isset($audience['afterarrival'])) {
-                        $metaQuery    =  array(
-                            'relation' => 'AND',
-                            array(
-                                'key'       => 'tsjippy_read_pages',
-                                'value'     => $page->ID,
-                                'compare'   => 'NOT LIKE'
-                            ),
-                            array(
-                                'key'       => 'tsjippy_arrival_date',
-                                'value'     => gmdate('Y-m-d'),
-                                'compare'   => '<'
-                            ),
-                        );
-                    } else {
-                        $metaQuery    = '';
-                    }
-
-                    // get all users who have not read this page/post
-                    $users    = get_users(
-                        array(
-                            'orderby'       => 'display_name',
-                            'count_total'   => false,
-                            'fields'        => ['display_name', 'ID'],
-                            'meta_query'    => $metaQuery
-                        )
-                    );
-
-                ?>
+                    ?>
                     <tr>
-                        <td><a href='$url'><?php echo esc_attr($page->post_title); ?></a></td>
+                        <td>
+                            <a href='$url'>
+                                <?php echo esc_attr($page->post_title); ?>
+                            </a>
+                        </td>
                         <td>
                             <?php
-                            if (!empty($users)) {
-                                $count            = count($users);
-                                if (defined('TSJIPPY\USERMANAGEMENT\SETTINGS')) {
-                                    $userEditPage    = TSJIPPY\getValidPageLink(TSJIPPY\USERMANAGEMENT\SETTINGS['user-edit-page'] ?? '');
-                                } else {
-                                    $userEditPage    = '';
+                            $count  = 0;
+                            $list   = [];
+                            foreach($users as $user){
+                                $readPages        = get_user_meta($user->ID, 'tsjippy_read_pages');
+
+                                // already read
+                                if(in_array($page->ID, $readPages)){
+                                    continue;
                                 }
+
+                                // Post has not been read, check if it should be read
+                                $mustRead    = true;
+
+                                /**
+                                 * Filter if this post should be read
+                                 * 
+                                 * @param   bool        $mustRead   
+                                 * @param   array       $audience   The audience targets
+                                 * @param   int         $userId     The WP_User id
+                                 * @param   \WP_Post    $post       The current post
+                                 * @param   \DOMElement $parent     The top node element
+                                */ 
+                                $mustRead    = apply_filters('tsjippy-mandatory-should-read-mandatory-page', $mustRead, $audience, $user->ID, $page);
+
+                                if($mustRead){
+                                    $count++;
+                                }
+
+                                $list[$user->ID] = $user->display_name;
+                            }
+
+                            if ($count) {
                                 ?>
                                 <div id='wrapper-<?php echo esc_attr($page->ID); ?>' class='hidden'>
                                     <?php echo esc_html($count); ?> users still have to read this.
                                     <?php
-                                    foreach ($users as $user) {
+                                    foreach ($list as $userId => $name) {
+                                        $url    = get_edit_profile_url($userId);
                                         ?>
-                                        <a href='<?php echo esc_url($userEditPage);?>?user-id=$user->ID'>
-                                            <?php echo esc_html($user->display_name);?>
+                                        <a href='<?php echo esc_url($url);?>?user-id=<?php echo esc_attr($userId);?>'>
+                                            <?php echo esc_html($name);?>
                                         </a>
                                          <br>
                                          <?php
                                     } ?>
                                 </div>
                                 <?php
-                            } else {
+                            }else{
                                 ?>
                                 Read by everyone
                                 <?php
