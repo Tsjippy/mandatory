@@ -14,8 +14,6 @@ if (! defined('ABSPATH')) {
 function getAudienceOptions($audience, $postId)
 {
     $keys    = [
-        'beforearrival' => "People should read this before arriving in the country (pre-field)",
-        'afterarrival'  => "People should read this after arriving in the country",
         'everyone'      => "Everyone must read this no matter how long in the country"
     ];
 
