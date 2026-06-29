@@ -36,8 +36,12 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
     {
         ob_start();
 ?>
-        <h4>E-mail with read reminders</h4>
-        <label>Define the e-mail people get when they shour read some mandatory content.</label>
+        <h4>
+            E-mail with read reminders
+        </h4>
+        <label>
+            Define the e-mail people get when they shour read some mandatory content.
+        </label>
     <?php
         $readReminder    = new ReadReminder(wp_get_current_user());
         $readReminder->printPlaceholders();
@@ -50,7 +54,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
 
     public function data($parent = '')
     {
-        wp_enqueue_script('tsjippy_mandatory_admin', TSJIPPY\pathToUrl(PLUGINPATH . 'js/admin.min.js'), array(), PLUGINVERSION, true);
+        wp_enqueue_script('tsjippy_mandatory_admin', TSJIPPY\pathToUrl(PLUGINPATH . 'js/admin.js'), array(), PLUGINVERSION, true);
 
         //Get all the pages with an audience meta key
         $pages = get_posts(
@@ -111,15 +115,10 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
             <tbody>
                 <?php
                 foreach ($pages as $page) {
-                    $audience   = get_post_meta($page->ID, 'tsjippy_audience', true);
-                    if (!is_array($audience) && !empty($audience)) {
-                        $audience  = json_decode($audience, true);
-                    }
-
                     ?>
                     <tr>
                         <td>
-                            <a href='$url'>
+                            <a href='<?php echo esc_url(get_permalink($page));?>'>
                                 <?php echo esc_attr($page->post_title); ?>
                             </a>
                         </td>
@@ -134,8 +133,8 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
 
                             if ($list) {
                                 ?>
+                                <?php echo esc_html(count($list)); ?> users still have to read this.
                                 <div id='wrapper-<?php echo esc_attr($page->ID); ?>' class='hidden'>
-                                    <?php echo esc_html(count($list)); ?> users still have to read this.
                                     <?php
                                     foreach ($list as $userId => $name) {
                                         $url    = get_edit_profile_url($userId);

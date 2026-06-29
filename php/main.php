@@ -32,6 +32,11 @@ function shouldRead($post, $user, $wrapper='' ){
         $userId = $user->ID;
     }
 
+    $family = new TSJIPPY\FAMILY\Family();
+    if ($family->isChild($user->ID)) {
+        return;
+    }
+
     if($post->post_author == $userId){
         return false;
     }
@@ -48,7 +53,6 @@ function shouldRead($post, $user, $wrapper='' ){
 
         // Post has not been read, check if it should be read
         $mustRead    = !empty($audience);
-
 
         /**
          * Filter if this post should be read
