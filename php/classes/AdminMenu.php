@@ -125,41 +125,17 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
                         </td>
                         <td>
                             <?php
-                            $count  = 0;
                             $list   = [];
                             foreach($users as $user){
-                                $readPages        = get_user_meta($user->ID, 'tsjippy_read_pages');
-
-                                // already read
-                                if(in_array($page->ID, $readPages)){
-                                    continue;
+                                if(shouldRead($page, $user)){
+                                    $list[$user->ID] = $user->display_name;
                                 }
-
-                                // Post has not been read, check if it should be read
-                                $mustRead    = true;
-
-                                /**
-                                 * Filter if this post should be read
-                                 * 
-                                 * @param   bool        $mustRead   
-                                 * @param   array       $audience   The audience targets
-                                 * @param   int         $userId     The WP_User id
-                                 * @param   \WP_Post    $post       The current post
-                                 * @param   \DOMElement $parent     The top node element
-                                */ 
-                                $mustRead    = apply_filters('tsjippy-mandatory-should-read-mandatory-page', $mustRead, $audience, $user->ID, $page);
-
-                                if($mustRead){
-                                    $count++;
-                                }
-
-                                $list[$user->ID] = $user->display_name;
                             }
 
-                            if ($count) {
+                            if ($list) {
                                 ?>
                                 <div id='wrapper-<?php echo esc_attr($page->ID); ?>' class='hidden'>
-                                    <?php echo esc_html($count); ?> users still have to read this.
+                                    <?php echo esc_html(count($list)); ?> users still have to read this.
                                     <?php
                                     foreach ($list as $userId => $name) {
                                         $url    = get_edit_profile_url($userId);

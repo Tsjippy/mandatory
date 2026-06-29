@@ -23,38 +23,20 @@ function markAsReadButton($content)
 
     $postId     = get_the_ID();
     $userId     = get_current_user_id();
-    $audience   = get_post_meta($postId, 'tsjippy_audience', true);
-    if (!is_array($audience) && !empty($audience)) {
-        $audience  = json_decode($audience, true);
-    }
-    $readPages    = get_user_meta($userId, 'tsjippy_read_pages');
-
-    //Get the users arrival date
-    $arrivalDate     = strtotime(get_user_meta($userId, 'tsjippy_arrival_date', true));
-    $arrived         = false;
-    if ($arrivalDate && $arrivalDate < time()) {
-        $arrived = true;
-    }
 
     //People should read this, and have not read it yet
-    if (
-        get_the_author_meta('ID') != $userId                    &&
-        !in_array($postId, $readPages)                          &&
-        (
-            (isset($audience['beforearrival']) && !$arrived)    ||
-            isset($audience['afterarrival'])                    ||
-            isset($audience['everyone'])
-        )
-    ) {
+    if (shouldRead($postId, $userId)) {
         wp_enqueue_style('tsjippy_mandatory_style');
         wp_enqueue_script('tsjippy_mandatory_script');
+        
         $message = '<p class="mandatory-content-warning">
             This is mandatory content.<br>
             Make sure you have clicked the "I have read this" button after reading.
         </p>';
+
         $content     = $message . $content;
         $content    .= "<div class='mandatory-content-button'>";
-        $content    .= "<button class='mark-as-read button' data-post-id='$postId' data-user-id='$userId'>I have read this</button>";
+            $content    .= "<button class='mark-as-read button' data-post-id='$postId' data-user-id='$userId'>I have read this</button>";
         $content    .= "</div>";
     }
 

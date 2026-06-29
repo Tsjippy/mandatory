@@ -44,9 +44,6 @@ function mustReadDocuments($userId = '', $excludeHeading = false, $echo = false)
         return '';
     }
 
-    //Get all the pages this user already read
-    $readPages        = get_user_meta($userId, 'tsjippy_read_pages');
-
     //Get all the pages with an audience meta key
     $posts = get_posts(
         array(
@@ -77,33 +74,11 @@ function mustReadDocuments($userId = '', $excludeHeading = false, $echo = false)
         }
 
         //check if already read
-        if (!in_array($post->ID, $readPages)) {
-            $audience   = get_post_meta($post->ID, 'tsjippy_audience', true);
+        if (shouldRead($post, $userId, $wrapper)){
+            $li = addElement('li', $ul);
+            addElement('a', $li, ['href' =>  get_permalink($post->ID)], $post->post_title);
 
-            if (!is_array($audience) && !empty($audience)) {
-                $audience  = json_decode($audience, true);
-            }
-
-            // Post has not been read, check if it should be read
-            $mustRead    = true;
-
-            /**
-             * Filter if this post should be read
-             * 
-             * @param   bool        $mustRead   
-             * @param   array       $audience   The audience targets
-             * @param   int         $userId     The WP_User id
-             * @param   \WP_Post    $post       The current post
-             * @param   \DOMElement $parent     The top node element
-            */ 
-            $mustRead    = apply_filters('tsjippy-mandatory-should-read-mandatory-page', $mustRead, $audience, $userId, $post, $wrapper);
-
-            if ($mustRead) {
-                $li = addElement('li', $ul);
-                addElement('a', $li, ['href' =>  get_permalink($post->ID)], $post->post_title);
-
-                $count++;
-            }
+            $count++;
         }
     }
 
