@@ -12,7 +12,7 @@ namespace TSJIPPY\MANDATORY;
  * Requires PHP:         8.3
  * Tested up to:         7.0
  * Plugin URI:            https://github.com/Tsjippy/mandatory
- * Tested:                6.9
+ * Tested:               7.0
  * TextDomain:            tsjippy
  * Requires Plugins:    
  * License: GPLv2 or later
@@ -37,3 +37,13 @@ define(__NAMESPACE__ . '\PLUGINVERSION', get_plugin_data(__FILE__, false, false)
 define(__NAMESPACE__ . '\PLUGINSLUG', str_replace('tsjippy-', '', basename(__FILE__, '.php')));
 define(__NAMESPACE__ . '\SETTINGS', get_option('tsjippy_' . PLUGINSLUG . '_settings', []));
 
+// run right before activation
+register_activation_hook(__FILE__, function () {
+    if(file_exists(__DIR__  . '/shared-functionality/loader.php')){
+        require_once(__DIR__  . '/shared-functionality/loader.php');
+    }
+
+    if(function_exists('TSJIPPY\activate')){
+        \TSJIPPY\activate();
+    }
+});
