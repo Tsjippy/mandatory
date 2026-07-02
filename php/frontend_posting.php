@@ -24,25 +24,27 @@ function getAudienceOptions($audience, $postId)
     return apply_filters('tsjippy-mandatory-audience-param', $keys);
 }
 
-/**
- * Adding fields to the frontend posting screen
- * @param  object $frontendContend     frontendContend instance
- */
+
 add_action('tsjippy-frontend-content-post-after-content', __NAMESPACE__ . '\afterContent', 20);
-function afterContent($frontendContend)
+/**
+ * Adds mandatroy post settings
+ * 
+ * @param object    $object The class instance
+ */
+function afterContent($object)
 {
-    $audience   = $frontendContend->getPostMeta('audience');
+    $audience   = $object->getPostMeta('audience', []);
     if (!is_array($audience) && !empty($audience)) {
         $audience  = json_decode($audience, true);
     }
 
-    $keys    = getAudienceOptions($audience, $frontendContend->postId);
+    $keys    = getAudienceOptions($audience, $object->postId);
 
 ?>
     <div
         id="recipients"
         class="frontend-form property post page expand-wrapper
-        <?php if ($frontendContend->postType != 'page' && $frontendContend->postType != 'post') echo ' hidden'; ?>">
+        <?php if ($object->postType != 'page' && $object->postType != 'post') echo ' hidden'; ?>">
         <h4>
             Audience
             <button class="button small expand" type='button'>&#9660;</button>
