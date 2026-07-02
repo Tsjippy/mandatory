@@ -33,7 +33,7 @@ function shouldRead($post, $user, $wrapper='' ){
     }
 
     $family = new TSJIPPY\FAMILY\Family();
-    if ($family->isChild($user->ID)) {
+    if ($family->isChild($userId)) {
         return;
     }
 

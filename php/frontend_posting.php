@@ -41,32 +41,38 @@ function afterContent($object)
     $keys    = getAudienceOptions($audience, $object->postId);
 
 ?>
-    <div
-        id="recipients"
-        class="frontend-form property post page expand-wrapper
-        <?php if ($object->postType != 'page' && $object->postType != 'post') echo ' hidden'; ?>">
-        <h4>
-            Audience
-            <button class="button small expand" type='button'>&#9660;</button>
-        </h4>
-
-        <div class="hidden expandable">
-            <?php
-            foreach ($keys as $key => $label) {
-            ?>
-                <label>
-                    <input
-                        type='checkbox'
-                        name='audience[<?php echo esc_attr($key); ?>]'
-                        value='<?php echo esc_attr($key); ?>'
-                        <?php if (isset($audience[$key])) echo 'checked'; ?>>
-                    <?php echo wp_kses_post($label); ?>
-                </label><br>
-            <?php
-            }
-            ?>
-        </div>
-    </div>
+    <tbody id="recipients" class="frontend-form property post page expand-wrapper <?php if ($object->postType != 'page' && $object->postType != 'post') echo ' hidden'; ?>">
+        <tr>
+            <td>
+                <h4>
+                    Audience
+                </h4>
+            </td>
+            <td>
+                <button class="button small expand" type='button'>
+                    &#9660;
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td class="hidden expandable" collspan=2>
+                <?php
+                foreach ($keys as $key => $label) {
+                ?>
+                    <label>
+                        <input
+                            type='checkbox'
+                            name='audience[<?php echo esc_attr($key); ?>]'
+                            value='<?php echo esc_attr($key); ?>'
+                            <?php if (isset($audience[$key])) echo 'checked'; ?>>
+                        <?php echo wp_kses_post($label); ?>
+                    </label><br>
+                <?php
+                }
+                ?>
+            </td>
+        </tr>
+    </tbody>
 <?php
 }
 
