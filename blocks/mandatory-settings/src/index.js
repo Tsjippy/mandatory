@@ -17,8 +17,7 @@ registerPlugin("mandatory-audience", {
       return "";
     }
 
-    const audience =
-      meta["audience"] == undefined ? {} : JSON.parse(meta["audience"]);
+    const audience = meta["tsjippy_audience"] == undefined ? {} : JSON.parse(meta["tsjippy_audience"]);
 
     const updateMetaValue = (selected, key) => {
       let newMeta = { ...meta };
@@ -51,7 +50,7 @@ registerPlugin("mandatory-audience", {
     return (
       <PluginDocumentSettingPanel
         name="mandatory-audience"
-        title={__("Mandatory settings", "sim")}
+        title={__("Mandatory settings", "tsjippy")}
         className="mandatory-audience"
       >
         {CheckBoxes()}
