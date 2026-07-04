@@ -2,7 +2,7 @@ const { __ } = wp.i18n;
 const { registerPlugin } = wp.plugins;
 import { CheckboxControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
-import { PluginDocumentSettingPanel } from "@wordpress/edit-post";
+import { PluginDocumentSettingPanel } from '@wordpress/editor';
 import { useEntityProp } from "@wordpress/core-data";
 
 registerPlugin("mandatory-audience", {
