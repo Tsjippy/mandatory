@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- mandatory pages is now a php-only block
 
 ### Fixed
 
