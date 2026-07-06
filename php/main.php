@@ -18,7 +18,6 @@ if (! defined('ABSPATH')) {
  * @return bool                         True if must read and not yet read
  */
 function shouldRead($post, $user, $wrapper='' ){
-
     if(is_numeric($post)){
         $postId = $post;
         $post   = get_post($postId);

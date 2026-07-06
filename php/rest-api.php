@@ -94,6 +94,28 @@ function restApiInit()
             )
         )
     );
+
+    // Get audience options
+    register_rest_route(
+        TSJIPPY\RESTAPIPREFIX . '/mandatory_content',
+        '/get_audience_options',
+        array(
+            'methods'     => 'POST',
+            'callback'     => function ($wpRestRequest) {
+                $postId = $wpRestRequest->get_param('post_id');
+                return getAudienceOptions($postId);
+            },
+            'permission_callback' => '__return_true',
+            'args'                    => array(
+                'post_id'        => array(
+                    'required'    => true,
+                    'validate_callback' => function ($postId) {
+                        return is_numeric($postId);
+                    }
+                )
+            )
+        )
+    );
 }
 
 add_filter('tsjippy-mailchimp-before-send', __NAMESPACE__ . '\beforeMailchimpSend', 10, 2);

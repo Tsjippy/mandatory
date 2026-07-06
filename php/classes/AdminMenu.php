@@ -87,7 +87,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
             return false;
         }
 
-        $keys    = getAudienceOptions(['empty'], 1);
+        $keys    = getAudienceOptions(1);
         unset($keys['everyone']);
 
         // get all users 

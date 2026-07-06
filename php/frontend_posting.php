@@ -11,14 +11,17 @@ if (! defined('ABSPATH')) {
 /**
  * Get the mandatory audience options
  */
-function getAudienceOptions($audience, $postId)
+function getAudienceOptions($postId=null)
 {
     $keys    = [
         'everyone'      => "Everyone must read this no matter how long in the country"
     ];
 
-    if ($postId != null && is_array($audience) && !empty($audience)) {
-        $keys['normal'] = "normal";
+    if ($postId != null){
+        $audience   = get_post_meta($postId, 'audience');
+        if( !empty($audience)) {
+            $keys['normal'] = "normal";
+        }
     }
 
     return apply_filters('tsjippy-mandatory-audience-param', $keys);
@@ -33,12 +36,7 @@ add_action('tsjippy-frontend-content-post-after-content', __NAMESPACE__ . '\afte
  */
 function afterContent($object)
 {
-    $audience   = $object->getPostMeta('audience', []);
-    if (!is_array($audience) && !empty($audience)) {
-        $audience  = json_decode($audience, true);
-    }
-
-    $keys    = getAudienceOptions($audience, $object->postId);
+    $keys    = getAudienceOptions($object->postId);
 
 ?>
     <tbody id="recipients" class="frontend-form property post page expand-wrapper <?php if ($object->postType != 'page' && $object->postType != 'post') echo ' hidden'; ?>">

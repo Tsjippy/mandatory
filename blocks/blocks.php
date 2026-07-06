@@ -58,21 +58,10 @@ function blockAssets()
 add_action('init',  __NAMESPACE__ . '\blockInit');
 function blockInit()
 {
-    register_post_meta(
-        '',
-        "tsjippy_audience",
-        [
-            'show_in_rest' => [
-                'schema' => [
-                    'type'  => 'array',
-                    'items' => [
-                        'type' => 'string',
-                    ],
-                ]
-            ],
-            'single'  => false,
-            'type'    => 'array',
-            'default' => []
-        ]
-    );
+    register_post_meta('', "tsjippy_audience", array(
+        'show_in_rest'      => true,
+        'single'            => false,
+        'type'              => 'string',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
 }
