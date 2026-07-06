@@ -2,6 +2,7 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+- audience block
 
 ### Changed
 - mandatory pages is now a php-only block
