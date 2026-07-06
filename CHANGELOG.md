@@ -2,14 +2,21 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- audience block
 
 ### Changed
-- mandatory pages is now a php-only block
 
 ### Fixed
 
 ### Updated
+
+## [10.3.5] - 2026-07-06
+
+
+### Added
+- audience block
+
+### Changed
+- mandatory pages is now a php-only block
 
 ## [10.3.4] - 2026-07-03
 
