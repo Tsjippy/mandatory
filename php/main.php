@@ -65,3 +65,10 @@ function shouldRead($post, $user, $wrapper='' ){
         return apply_filters('tsjippy-mandatory-should-read-mandatory-page', $mustRead, $audience, $userId, $post, $wrapper);
     }
 }
+
+// add to account dashboard
+add_action('tsjippy-user-management-dashboard-warnings', __NAMESPACE__ . '\dashboardWarnings', 20);
+function dashboardWarnings($userId)
+{
+    mustReadDocuments($userId, false, true);
+}
