@@ -37,6 +37,7 @@ add_action( 'init', function () {
             'supports'        => array(
                 'autoRegister' => true,
             ),
+            'icon'  => 'unordered list'
         )
     );
 
