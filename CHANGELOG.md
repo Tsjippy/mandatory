@@ -2,14 +2,21 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- block icon
 
 ### Changed
-- code reorder
 
 ### Fixed
 
 ### Updated
+
+## [10.3.7] - 2026-07-10
+
+
+### Added
+- block icon
+
+### Changed
+- code reorder
 
 ## [10.3.6] - 2026-07-06
 
