@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- message when block does not output anything in edit page
 
 ### Fixed
 
 ### Updated
+
+## [10.4.0] - 2026-07-11
+
+
+### Changed
+- message when block does not output anything in edit page
 
 ## [10.3.9] - 2026-07-10
 
