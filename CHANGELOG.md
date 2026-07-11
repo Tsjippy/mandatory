@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- message when block does not output anything in edit page
 
 ### Fixed
 
