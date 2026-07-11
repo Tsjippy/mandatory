@@ -28,9 +28,15 @@ add_action( 'init', function () {
             ),
             'render_callback' => function ( $attributes ) {
                 $html   = mustReadDocuments(excludeHeading: $attributes['excludeHeading']);
-                if(empty($html) && !$attributes['hide_when_empty']){
-                    return "<div>You have no mandatroy documents to read</div>";
-                }
+                if(empty($html)){
+                    if(!$attributes['hide_when_empty']){
+                        return "<div>You have no mandatroy documents to read</div>";
+                    }
+
+                    if(($_REQUEST['action'] ?? $_REQUEST['context'] ?? '') == 'edit'){
+                        return "<div>You have no mandatroy documents to read, this will not show outside the block editor</div>";
+                    }
+                } 
 
                 return $html;
             },
