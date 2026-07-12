@@ -13,15 +13,15 @@ add_action( 'init', function () {
     register_block_type(
         'tsjippy-mandatory/mandatory-pages',
         array(
-            'title'           => __( 'Must Read Documents List', 'tsjippy' ),
+            'title'           => __( 'Must Read Documents List', '%TEXTDOMAIN%' ),
             'attributes'      => array(
                 'excludeHeading'   => array(
-                    'label'   => __( 'Exclude the heading', 'tsjippy' ),
+                    'label'   => __( 'Exclude the heading', '%TEXTDOMAIN%' ),
                     'type'    => 'boolean',
                     'default' => false,
                 ),
                 'hide_when_empty'   => array(
-                    'label'   => __( 'Do not show when empty', 'tsjippy' ),
+                    'label'   => __( 'Do not show when empty', '%TEXTDOMAIN%' ),
                     'type'    => 'boolean',
                     'default' => false,
                 )
