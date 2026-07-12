@@ -24,6 +24,12 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
         parent::__construct($settings, $name);
     }
 
+    /**
+     * Add the settings page to the admin menu
+     *
+     * @param string $parent The parent menu slug
+     * @return bool True if the settings page was added, false otherwise
+     */
     public function settings($parent)
     {
 
@@ -32,17 +38,24 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
         return true;
     }
 
+    /**
+     * Function to display the emails page
+     *
+     * @param   string  $parent The parent menu slug
+     * 
+     * @return  bool            True if the emails page was displayed, false otherwise
+     */
     public function emails($parent)
     {
         ob_start();
-?>
+        ?>
         <h4>
             E-mail with read reminders
         </h4>
         <label>
             Define the e-mail people get when they shour read some mandatory content.
         </label>
-    <?php
+        <?php
         $readReminder    = new ReadReminder(wp_get_current_user());
         $readReminder->printPlaceholders();
         $readReminder->printInputs();
@@ -52,6 +65,13 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
         return true;
     }
 
+    /**
+     * Function to display the emails page
+     *
+     * @param   string  $parent The parent menu slug
+     * 
+     * @return  bool            True if the emails page was displayed, false otherwise
+     */
     public function data($parent = '')
     {
         wp_enqueue_script('tsjippy_mandatory_admin', TSJIPPY\pathToUrl(PLUGINPATH . 'js/admin.js'), array(), PLUGINVERSION, true);
@@ -174,6 +194,13 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
         return true;
     }
 
+    /**
+     * Add the functions page to the admin menu
+     *
+     * @param string $parent The parent menu slug
+     * 
+     * @return bool True if the functions page was added, false otherwise
+     */
     public function functions($parent)
     {
 
