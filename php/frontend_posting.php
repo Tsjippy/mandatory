@@ -74,6 +74,8 @@ function afterContent($object)
 <?php
 }
 
+
+add_action('tsjippy-frontend-content-after-post-save', __NAMESPACE__ . '\afterPostSave', 10, 3);
 /**
  * Allow comments
  * 
@@ -81,7 +83,6 @@ function afterContent($object)
  * @param   object      $object     FrontEndContent Instance
  * @param   array       $request    The sanitized request data
  */
-add_action('tsjippy-frontend-content-after-post-save', __NAMESPACE__ . '\afterPostSave', 10, 3);
 function afterPostSave($post, $object, $request)
 {
     //store audience
