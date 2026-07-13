@@ -11,7 +11,7 @@ if (! defined('ABSPATH')) {
 add_action('init', function () {
     $freq   = SETTINGS['reminder-freq'] ?? false;
     if ($freq) {
-        TSJIPPY\scheduleTask('tsjippy-read-reminder', $freq, __NAMESPACE__, 'readReminder');
+        TSJIPPY\scheduleTask('tsjippy-mandatory-read-reminder', $freq, __NAMESPACE__, 'readReminder');
     }
 });
 
