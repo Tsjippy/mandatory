@@ -88,16 +88,6 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
                     [
                         'key'     => "tsjippy_audience",
                         'compare' => 'EXISTS'
-                    ],
-                    [
-                        'key'     => "tsjippy_audience",
-                        'value'   => 'a:0:{}',
-                        'compare' => '!='
-                    ],
-                    [
-                        'key'     => "tsjippy_audience",
-                        'value'   => '',
-                        'compare' => '!='
                     ]
                 ],
                 'numberposts'     => -1                // all posts
