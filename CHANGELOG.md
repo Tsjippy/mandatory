@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- do not add mark all as read button in e-mail
 
 ### Updated
+
+## [10.4.7] - 2026-07-14
+
+
+### Fixed
+- do not add mark all as read button in e-mail
 
 ## [10.4.6] - 2026-07-14
 
