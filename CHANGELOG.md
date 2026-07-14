@@ -5,6 +5,7 @@
 
 ### Changed
 - prefix scheduled task
+- optimized post query
 
 ### Fixed
 
