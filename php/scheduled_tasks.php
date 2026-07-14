@@ -22,7 +22,7 @@ function readReminder()
 {
     $users = TSJIPPY\getUserAccounts();
     foreach ($users as $user) {
-        $html = mustReadDocuments($user->ID);
+        $html = mustReadDocuments(userId: $user->ID, excludeMarkAllAsRead: true);
 
         //Only continue if there are documents to read
         if (!empty($html)) {

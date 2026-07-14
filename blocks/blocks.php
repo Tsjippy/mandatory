@@ -74,12 +74,13 @@ function blockAssets()
 
 /**
  * Get an unordered list of documents to read
- * @param  int        $userId          The user id to check
- * @param  bool       $excludeHeading  Whether to include a heading for
- * @param  bool       $echo            Whether to echo return the html
- * @return string                      HTML unordered list
+ * @param  int        $userId               The user id to check
+ * @param  bool       $excludeHeading       Whether to include a heading for
+ * @param  bool       $echo                 Whether to echo return the html
+ * @param  bool       $excludeMarkAllAsRead Whether to not include the mark all as read button
+ * @return string                           HTML unordered list
  */
-function mustReadDocuments($userId = '', $excludeHeading = false, $echo = false)
+function mustReadDocuments($userId = '', $excludeHeading = false, $echo = false, $excludeMarkAllAsRead=false)
 {
     $mandatoryReading    = apply_filters('tsjippy-mandatory-must-read', false, $userId);
     if (!is_user_logged_in() || !$mandatoryReading) {
@@ -144,8 +145,8 @@ function mustReadDocuments($userId = '', $excludeHeading = false, $echo = false)
     }
 
     // Do not add the button on cron
-    if (wp_doing_cron()) {
-        return $wrapper->ownerDocument->saveHTML();;
+    if (wp_doing_cron() || $excludeMarkAllAsRead) {
+        return $wrapper->ownerDocument->saveHTML();
     }
 
     $text    = 'Mark all pages as read';
