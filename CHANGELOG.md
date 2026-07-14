@@ -4,12 +4,17 @@
 ### Added
 
 ### Changed
-- prefix scheduled task
-- optimized post query
 
 ### Fixed
 
 ### Updated
+
+## [10.4.6] - 2026-07-14
+
+
+### Changed
+- prefix scheduled task
+- optimized post query
 
 ## [10.4.5] - 2026-07-13
 
