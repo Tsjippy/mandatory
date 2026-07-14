@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- do not add mark all as read button in e-mail
 
 ### Updated
 
