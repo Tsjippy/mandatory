@@ -5,14 +5,14 @@ namespace TSJIPPY\MANDATORY;
 /**
  * Plugin Name:          Tsjippy Mandatory Pages
  * Description:          This plugin adds the possibility to make certain posts and pages mandatory. That means people have to mark the content as read. If they do not do so they will be reminded to read it until they do. A "I have read this" button will be automatically added to the e-mail if it is send by mailchimp. Adds one shortcode 'must_read_documents', which displays the pages to be read as links. Use like this <code>[must_read_documents]</code>.
- * Version:              10.5.7
+ * Version:              10.5.8
  * Author:               Ewald Harmsen
  * AuthorURI:            harmseninnigeria.nl
  * Requires at least:    6.3
  * Requires PHP:         8.3
- * Tested up to:         7.0
+ * Tested up to:         7.1
  * Plugin URI:            https://github.com/Tsjippy/mandatory
- * Tested:               7.0
+ * Tested:               7.1
  * TextDomain:            tsjippy
  * Requires Plugins:    
  * License: GPLv2 or later
