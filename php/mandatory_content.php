@@ -27,7 +27,7 @@ function markAsReadButton($content)
     //People should read this, and have not read it yet
     if (shouldRead($postId, $userId)) {
         wp_enqueue_style('tsjippy_mandatory_style');
-        wp_enqueue_script('tsjippy_mandatory_script');
+        wp_enqueue_script_module('@tsjippy/mandatory_script');
         
         $message = '<p class="mandatory-content-warning">
             This is mandatory content.<br>

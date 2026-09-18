@@ -87,7 +87,7 @@ function mustReadDocuments($userId = '', $excludeHeading = false, $echo = false,
         return '';
     }
 
-    wp_enqueue_script('tsjippy_mandatory_script');
+    wp_enqueue_script_module('@tsjippy/mandatory_script');
 
     if (!is_numeric($userId)) {
         $userId = get_current_user_id();

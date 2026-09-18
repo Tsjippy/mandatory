@@ -1,3 +1,8 @@
+import{
+  fetchRestApi
+} from "../../tsjippy-forms/js/form_submit_functions.js";
+
+
 console.log("Mandatory.js loaded");
 
 async function markAsRead(event) {
@@ -9,7 +14,7 @@ async function markAsRead(event) {
     formData.append("user-id", target.dataset.userId);
     formData.append("post-id", target.dataset.postId);
 
-    var response = await FormSubmit.fetchRestApi(
+    var response = await fetchRestApi(
       "mandatory_content/mark_as_read",
       formData,
     );
@@ -32,7 +37,7 @@ async function markAllAsRead(event) {
   var formData = new FormData();
   formData.append("user-id", target.dataset.userId);
 
-  var response = await FormSubmit.fetchRestApi(
+  var response = await fetchRestApi(
     "mandatory_content/mark_all_as_read",
     formData,
   );
