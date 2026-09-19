@@ -28,7 +28,7 @@ const Component = () => {
   // Do so only on the first render
   useEffect(() => {
     apiFetch({
-      path: tsjippy.restApiPrefix + `/mandatory_content/get_audience_options`,
+      path: `tsjippy/v2/mandatory_content/get_audience_options`,
       method: "POST",
       data: { post_id: postId },
     }).then((res) => {
