@@ -2,13 +2,20 @@ import{
   fetchRestApi
 } from "../../tsjippy-forms/js/form_submit_functions.js";
 
+import { 
+  showLoader 
+} from "../../tsjippy-shared-functionality/js/partials/show_loader.js";
+
+import { 
+  displayMessage 
+} from "../../tsjippy-shared-functionality/js/partials/display_message.js";
 
 console.log("Mandatory.js loaded");
 
 async function markAsRead(event) {
   var target = event.target;
   if (target.dataset.postId != undefined) {
-    Main.showLoader(target);
+    showLoader(target);
 
     var formData = new FormData();
     formData.append("user-id", target.dataset.userId);
@@ -20,7 +27,7 @@ async function markAsRead(event) {
     );
 
     if (response) {
-      Main.displayMessage(response);
+      displayMessage(response);
       document
         .querySelectorAll(
           ".mandatory-content-button, .mandatory-content-warning",
@@ -32,7 +39,7 @@ async function markAsRead(event) {
 
 async function markAllAsRead(event) {
   var target = event.target;
-  var loader = Main.showLoader(target);
+  var loader = showLoader(target);
 
   var formData = new FormData();
   formData.append("user-id", target.dataset.userId);
@@ -43,7 +50,7 @@ async function markAllAsRead(event) {
   );
 
   if (response) {
-    Main.displayMessage(response);
+    displayMessage(response);
     document.querySelectorAll(".mark-all-as-read").forEach((el) => el.remove());
   }
 
