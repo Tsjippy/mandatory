@@ -75,7 +75,8 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu
      */
     public function data($parent = '')
     {
-        wp_enqueue_script_module('@tsjippy/mandatory_admin', TSJIPPY\pathToUrl(PLUGINPATH . 'js/admin.js'), array(), PLUGINVERSION);
+
+        wp_enqueue_script_module('@tsjippy/mandatory_admin', TSJIPPY\pathToUrl(PLUGINPATH . 'js/admin' . TSJIPPY\JSEXTENSION), array(), PLUGINVERSION);
 
         //Get all the pages with an audience meta key
         $pages = get_posts(
